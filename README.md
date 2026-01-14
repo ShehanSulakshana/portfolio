@@ -1,6 +1,6 @@
 # Shehan Portfolio
 
-Live: https://shehansulakshana.github.io/shehan-portfolio
+Live: https://shehansulakshana.github.io/shehan-sulakshana
 
 ![Portfolio Screenshot](static/screenshot.jpeg)
 
