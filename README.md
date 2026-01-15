@@ -1,4 +1,4 @@
-# Shehan Portfolio
+# My Portfolio
 
 Live: https://shehansulakshana.github.io/shehan-sulakshana
 
