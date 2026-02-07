@@ -39,6 +39,48 @@
     --glow-blue: rgba(79, 209, 197, 0.22);
 }
 
+
+.typewriter {
+    min-height: 24px;
+    line-height: 1.4;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    border-right: 2px solid transparent;
+    font-family: 'Courier New', Consolas, monospace;
+}
+
+.cursor {
+    align-self: flex-start;
+    width: 3px;
+    height: 24px;
+    background: var(--accent-purple-dark);
+    /* margin-left: 2px; */
+    display: inline-block;
+    animation: blink 900ms infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .terminal {
+        padding: 1rem;
+        width: 95%;
+    }
+}
+
+
 html {
     scroll-behavior: smooth;
 }
@@ -411,14 +453,48 @@ max-width: 900px;
 
 .hero-subtitle {
     font-size: 1.3rem;
-    color: var(--text-secondary);
+    color: var(--accent-purple);
     margin-bottom: 1rem;
-    font-weight: 400;
+    margin-top: 1.5rem;
+    font-weight: 550;
+}
+
+.typewriter {
+    min-height: 24px;
+    line-height: 1.4;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    border-right: 2px solid transparent;
+    font-family: 'Courier New', Consolas, monospace;
+}
+
+.cursor {
+    align-self: flex-start;
+    width: 3px;
+    height: 24px;
+    background: var(--accent-purple-dark);
+    /* margin-left: 2px; */
+    display: inline-block;
+    animation: blink 900ms infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
 }
 
 .hero-description {
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    color: var(--accent-purple);
     max-width: 700px;
     margin: 0 auto 3rem;
     line-height: 1.7;
