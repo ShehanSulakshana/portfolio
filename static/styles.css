@@ -1388,6 +1388,12 @@ footer {
     transition: all 0.4s ease;
 }
 
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
 .social-link:hover {
     transform: translateY(-6px) scale(1.1);
     background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
