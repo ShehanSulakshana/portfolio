@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="IP Lookup mock image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06111d"/>
+      <stop offset="50%" stop-color="#16324f"/>
+      <stop offset="100%" stop-color="#0c1728"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="180" y="170" width="1240" height="560" rx="46" fill="#09101c" fill-opacity="0.7" stroke="#60a5fa" stroke-opacity="0.22"/>
+  <g fill="none" stroke="url(#accent)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M330 350c0-80 65-145 145-145s145 65 145 145c0 127-145 255-145 255S330 477 330 350Z"/>
+    <circle cx="475" cy="350" r="56"/>
+  </g>
+  <g fill="#e5f3ff" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="980" y="350" font-size="84" font-weight="800">IP Lookup</text>
+    <text x="980" y="425" font-size="32" fill-opacity="0.75">IP analysis and domain checking mock preview</text>
+  </g>
+  <g fill="#60a5fa" fill-opacity="0.12">
+    <rect x="860" y="500" width="180" height="44" rx="22"/>
+    <rect x="1060" y="500" width="240" height="44" rx="22"/>
+    <rect x="860" y="560" width="300" height="44" rx="22"/>
+    <rect x="1180" y="560" width="120" height="44" rx="22"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Security Plus Study mock image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07121e"/>
+      <stop offset="55%" stop-color="#17324b"/>
+      <stop offset="100%" stop-color="#0b1324"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="200" y="180" width="1200" height="540" rx="44" fill="#09101c" fill-opacity="0.74" stroke="#60a5fa" stroke-opacity="0.22"/>
+  <g fill="none" stroke="url(#accent)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M800 300l150 60v110c0 120-72 198-150 252-78-54-150-132-150-252V360l150-60Z"/>
+    <path d="M740 488l42 42 86-104"/>
+  </g>
+  <g fill="#eaf4ff" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="800" y="410" font-size="86" font-weight="800">Security+</text>
+    <text x="800" y="486" font-size="32" fill-opacity="0.75">Certification study mock preview</text>
+  </g>
+  <g fill="#22c55e" fill-opacity="0.12">
+    <rect x="480" y="560" width="640" height="44" rx="22"/>
+    <rect x="560" y="620" width="480" height="44" rx="22"/>
+  </g>
+</svg>

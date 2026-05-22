@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Weather App mock image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06111d"/>
+      <stop offset="55%" stop-color="#12406b"/>
+      <stop offset="100%" stop-color="#0b1424"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1230" cy="210" r="170" fill="#fbbf24" fill-opacity="0.12"/>
+  <rect x="220" y="180" width="1160" height="540" rx="44" fill="#09101c" fill-opacity="0.72" stroke="#38bdf8" stroke-opacity="0.22"/>
+  <g fill="none" stroke="url(#accent)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="520" cy="420" r="100"/>
+    <path d="M520 280v-42"/>
+    <path d="M520 602v-42"/>
+    <path d="M380 420h-42"/>
+    <path d="M702 420h42"/>
+    <path d="M420 320l-30-30"/>
+    <path d="M620 320l30-30"/>
+  </g>
+  <g fill="#eaf7ff" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="1010" y="360" font-size="84" font-weight="800">Weather App</text>
+    <text x="1010" y="435" font-size="32" fill-opacity="0.75">OpenWeather API mock preview</text>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="CTF Practice mock image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#120f1f"/>
+      <stop offset="55%" stop-color="#2b1344"/>
+      <stop offset="100%" stop-color="#0c1322"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1180" cy="220" r="200" fill="#8b5cf6" fill-opacity="0.12"/>
+  <rect x="220" y="210" width="1160" height="500" rx="42" fill="#0b1020" fill-opacity="0.74" stroke="#f59e0b" stroke-opacity="0.22"/>
+  <g fill="none" stroke="url(#accent)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M420 385v170"/>
+    <path d="M420 385h120"/>
+    <path d="M540 385v70"/>
+    <path d="M420 555h120"/>
+    <path d="M1030 365l70 70-70 70-70-70 70-70Z"/>
+  </g>
+  <g fill="#fff7ed" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" text-anchor="middle">
+    <text x="860" y="350" font-size="82" font-weight="800">CTF Practice</text>
+    <text x="860" y="424" font-size="32" fill-opacity="0.75">TryHackMe and Hack The Box mock preview</text>
+  </g>
+  <g fill="#f59e0b" fill-opacity="0.12">
+    <circle cx="980" cy="565" r="88"/>
+    <circle cx="980" cy="565" r="40"/>
+  </g>
+</svg>
