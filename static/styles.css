@@ -1276,7 +1276,8 @@ section.visible {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     margin-top: 1.5rem;
 }
 
@@ -1293,6 +1294,7 @@ section.visible {
     text-decoration: none !important;
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 0.5rem;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
     position: relative !important;
@@ -1301,6 +1303,9 @@ section.visible {
     letter-spacing: 0.3px;
     white-space: nowrap;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: auto;
+    text-align: center;
+    border-radius: 25px !important;
 }
 
 .skill-pill:hover {
@@ -1319,13 +1324,12 @@ section.visible {
 @media (max-width: 768px) {
     .skill-pills {
         gap: 0.6rem;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .skill-pill {
         padding: 0.6rem 1.2rem !important;
         font-size: 0.85rem !important;
-        border-radius: 20px !important;
     }
 }
 
@@ -1338,14 +1342,6 @@ section.visible {
         padding: 0.55rem 1rem !important;
         font-size: 0.82rem !important;
     }
-}
-
-.skill-category .skill-pills span {
-    color: #c3d2ff !important;
-    background: rgba(12, 12, 22, 0.85) !important;
-    border: 1px solid rgba(139, 92, 246, 0.35) !important;
-    padding: 0.65rem 1.4rem !important;
-    border-radius: 25px !important;
 }
 
 .contact-section {
