@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const lines = [
     'shehan@portfolio:~$whoami',
-    'Flutter | Dart Developer',
+    'Flutter Mobile Developer',
     'Cybersecurity Enthusiast'
         ];
 
