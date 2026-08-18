@@ -40,6 +40,20 @@
 }
 
 
+/* :root {
+    --bg-main: #050505;
+    --bg-card: rgba(10, 18, 12, 0.72);
+    --text-primary: #eafff0;
+    --text-secondary: #b8e6c2;
+    --accent-blue: #22d3a8;
+    --accent-purple: #4ade80;
+    --accent-purple-dark: #15803d;
+    --border-glass: rgba(74, 222, 128, 0.16);
+    --glow-purple: rgba(74, 222, 128, 0.28);
+    --glow-blue: rgba(34, 211, 168, 0.22);
+} */
+
+
 .typewriter {
     min-height: 24px;
     line-height: 1.4;
