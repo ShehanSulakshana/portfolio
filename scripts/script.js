@@ -202,3 +202,67 @@ function typeWriter() {
     setTimeout(typeWriter, 200);
 }
 typeWriter();
+
+// Cursor Spotlight
+(function () {
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (!finePointer.matches || reducedMotion.matches) return;
+
+    // Ambient page-wide glow that trails the cursor
+    const spotlight = document.createElement('div');
+    spotlight.className = 'cursor-spotlight';
+    spotlight.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(spotlight);
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let renderQueued = false;
+
+    function renderSpotlight() {
+        spotlight.style.transform = `translate(${targetX}px, ${targetY}px) translate(-50%, -50%)`;
+        renderQueued = false;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        spotlight.classList.add('is-active');
+
+        if (!renderQueued) {
+            renderQueued = true;
+            requestAnimationFrame(renderSpotlight);
+        }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+        spotlight.classList.remove('is-active');
+    });
+
+    // Localized spotlight glow on interactive cards, tracking the cursor within each card
+    const spotlightCards = document.querySelectorAll('.glass-card, .tool-card, .contact-card');
+
+    spotlightCards.forEach((card) => {
+        let cardRafQueued = false;
+        let cardX = 50;
+        let cardY = 50;
+
+        function renderCardSpotlight() {
+            card.style.setProperty('--spot-x', `${cardX}%`);
+            card.style.setProperty('--spot-y', `${cardY}%`);
+            cardRafQueued = false;
+        }
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            cardX = ((e.clientX - rect.left) / rect.width) * 100;
+            cardY = ((e.clientY - rect.top) / rect.height) * 100;
+
+            if (!cardRafQueued) {
+                cardRafQueued = true;
+                requestAnimationFrame(renderCardSpotlight);
+            }
+        }, { passive: true });
+    });
+})();
