@@ -266,3 +266,187 @@ typeWriter();
         }, { passive: true });
     });
 })();
+
+
+
+// CERTIFICATES — 3D coverflow carousel
+(function () {
+    const certData = [
+        {
+            id: 1,
+            title: 'Web Design for Beginners',
+            issuer: 'University of Moratuwa, Sri Lanka',
+            image: 'static/certs/web-design.png',
+            tags: ['HTML', 'CSS', 'JS', 'UI/UX'],
+            verifyUrl: 'https://open.uom.lk/lms/mod/customcert/verify_certificate.php/?code=DL6MD2SnS8'
+        },
+        {
+            id: 2,
+            title: 'GitHub 101 - GitHub For Beginners',
+            issuer: 'Microsoft Student Ambassadors',
+            image: 'static/certs/github-101.png',
+            tags: ['GIT', 'GITHUB', 'Version Control'],
+            verifyUrl: 'https://www.linkedin.com/posts/shehan-sulakshana_github-microsoftstudentambassadors-versioncontrol-share-7490604150120923137-ESPA/'
+        },
+        {
+            id: 3,
+            title: 'Networking Basics',
+            issuer: 'Cisco Networking Academy',
+            image: 'static/certs/networking-basics.png',
+            tags: ['Networking', 'Protocols', 'OSI Model'],
+            verifyUrl: 'https://www.credly.com/badges/bd702b9e-16d3-439d-bcf6-6cb71c249196/public_url'
+        },
+        {
+            id: 4,
+            title: "Introduction to Cybersecurity",
+            issuer: 'Cisco Networking Academy',
+            image: 'static/certs/cybersecurity-intro.png',
+            tags: ['Cybersecurity', 'CIA Triad', 'Networking Security'],
+            verifyUrl: 'https://www.credly.com/badges/ec03e1af-01c9-4aa4-858a-e5538fd12ed7/public_url'
+        }
+    ];
+
+    const carousel = document.getElementById('cert3dCarousel');
+    const indicatorsEl = document.getElementById('cert3dIndicators');
+    const prevBtn = document.getElementById('cert3dPrev');
+    const nextBtn = document.getElementById('cert3dNext');
+    const container = document.querySelector('.cert3d-container');
+    if (!carousel) return;
+
+    let currentIndex = 0;
+    let autoTimer = null;
+    let isHovering = false;
+
+    function createItem(data, index) {
+        const item = document.createElement('div');
+        item.className = 'cert3d-item';
+        item.dataset.index = index;
+
+        const tags = data.tags.map(t => `<span class="cert3d-tag">${t}</span>`).join('');
+
+        item.innerHTML = `
+            <div class="cert3d-card">
+                <div class="cert3d-number">0${data.id}</div>
+                <div class="cert3d-thumb"><img src="${data.image}" alt="${data.title}" loading="lazy"></div>
+                <h3 class="cert3d-title">${data.title}</h3>
+                <p class="cert3d-issuer">${data.issuer}</p>
+                <div class="cert3d-tags">${tags}</div>
+                <a class="cert3d-verify" href="${data.verifyUrl}" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="badge-check"></i> View Certificate
+                </a>
+                <span class="cert3d-hint">Click to bring forward</span>
+            </div>
+        `;
+
+        item.addEventListener('click', (e) => {
+            if (index !== currentIndex) {
+                e.preventDefault();
+                goToSlide(index);
+            }
+        });
+
+        return item;
+    }
+
+    function updateCarousel() {
+        const items = document.querySelectorAll('.cert3d-item');
+        const dots = document.querySelectorAll('.cert3d-dot');
+        const total = items.length;
+        const isMobile = window.innerWidth <= 768;
+        const isTablet = window.innerWidth <= 1024;
+
+        let spacing1 = 320, spacing2 = 500;
+        if (isMobile) { spacing1 = 190; spacing2 = 320; }
+        else if (isTablet) { spacing1 = 250; spacing2 = 400; }
+
+        items.forEach((item, index) => {
+            let offset = index - currentIndex;
+            if (offset > total / 2) offset -= total;
+            else if (offset < -total / 2) offset += total;
+
+            const abs = Math.abs(offset);
+            const sign = offset < 0 ? -1 : 1;
+            item.classList.toggle('is-active', abs === 0);
+            item.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+
+            if (abs === 0) {
+                item.style.transform = 'translate(-50%, -50%) translateZ(0) scale(1)';
+                item.style.opacity = '1';
+                item.style.zIndex = '10';
+            } else if (abs === 1) {
+                const rot = isMobile ? 28 : 32;
+                const scale = isMobile ? 0.86 : 0.82;
+                item.style.transform = `translate(-50%, -50%) translateX(${sign * spacing1}px) translateZ(-180px) rotateY(${-sign * rot}deg) scale(${scale})`;
+                item.style.opacity = '0.75';
+                item.style.zIndex = '5';
+            } else if (abs === 2) {
+                const rot = isMobile ? 38 : 42;
+                const scale = isMobile ? 0.7 : 0.65;
+                item.style.transform = `translate(-50%, -50%) translateX(${sign * spacing2}px) translateZ(-320px) rotateY(${-sign * rot}deg) scale(${scale})`;
+                item.style.opacity = '0.4';
+                item.style.zIndex = '3';
+            } else {
+                item.style.transform = 'translate(-50%, -50%) translateZ(-420px) scale(0.5)';
+                item.style.opacity = '0';
+                item.style.zIndex = '1';
+            }
+        });
+
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+        lucide.createIcons();
+    }
+
+    function nextSlide() { currentIndex = (currentIndex + 1) % certData.length; updateCarousel(); }
+    function prevSlide() { currentIndex = (currentIndex - 1 + certData.length) % certData.length; updateCarousel(); }
+    function goToSlide(i) { currentIndex = i; updateCarousel(); }
+
+    function startAuto() {
+        stopAuto();
+        autoTimer = setInterval(() => { if (!isHovering) nextSlide(); }, 4500);
+    }
+    function stopAuto() { if (autoTimer) clearInterval(autoTimer); }
+
+    function init() {
+        certData.forEach((data, index) => {
+            carousel.appendChild(createItem(data, index));
+
+            const dot = document.createElement('div');
+            dot.className = 'cert3d-dot';
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            indicatorsEl.appendChild(dot);
+        });
+
+        updateCarousel();
+        startAuto();
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        container.addEventListener('mouseenter', () => (isHovering = true));
+        container.addEventListener('mouseleave', () => (isHovering = false));
+
+        // Swipe support
+        let touchStartX = 0;
+        container.addEventListener('touchstart', (e) => (touchStartX = e.touches[0].clientX), { passive: true });
+        container.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(diff) > 40) diff < 0 ? nextSlide() : prevSlide();
+        }, { passive: true });
+
+        // Keyboard nav — only while hovering the carousel
+        document.addEventListener('keydown', (e) => {
+            if (!isHovering) return;
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        let resizeT;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeT);
+            resizeT = setTimeout(updateCarousel, 200);
+        });
+    }
+
+    init();
+})();
