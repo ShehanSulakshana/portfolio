@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/svg+xml" href="./static/icons/icon.svg">
     <link rel="stylesheet" href="static/styles.css">
 
@@ -500,14 +501,14 @@
             <h2 class="section-title">Certificates</h2>
             <p class="section-description">Official credentials validating core technical skills</p>
         </div>
-    
+
         <div class="cert3d-container">
             <div class="cert3d-carousel" id="cert3dCarousel">
                 <!-- Cards injected with JS -->
             </div>
-    
+
             <div class="cert3d-indicators" id="cert3dIndicators"></div>
-    
+
             <div class="cert3d-controls">
                 <button class="cert3d-btn" id="cert3dPrev" aria-label="Previous certificate">
                     <i data-lucide="chevron-left"></i>
@@ -517,6 +518,48 @@
                 </button>
             </div>
         </div>
+
+
+        <section class="badges-container" data-per-row="4">
+            <div class="badges-header">
+                <h3 class="badges-title">
+                    <i class="fas fa-award"></i> Verified Badges & Micro-Credentials
+                </h3>
+                <span class="badges-subtitle">Applied technical skills validated through interactive labs and assessments</span>
+            </div>
+            
+            <!-- All injected by JS-->
+            <div class="badges-rows" id="badgesRows"></div>
+
+            <button class="badges-toggle-btn" id="toggleBadgesBtn" hidden>
+                <span id="toggleText">See more</span>
+                <svg id="toggleIcon" class="toggle-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </section>
+
+        <!-- BADGE DETAIL MODAL -->
+        <div class="badge-modal-overlay" id="badgeModal">
+            <div class="badge-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <button class="modal-close-btn" onclick="closeBadgeModal()" aria-label="Close">&times;</button>
+                <div class="modal-image-wrapper">
+                    <img id="modalImg" src="" alt="" class="modal-badge-img" />
+                </div>
+                <h3 id="modalTitle">Badge title</h3>
+                <p class="modal-meta"><strong id="modalIssuer"></strong> • <span id="modalDate"></span></p>
+                <div class="modal-body">
+                    <p id="modalSkills"></p>
+                </div>
+                <a id="modalVerifyLink" target="_blank" rel="noopener noreferrer" class="modal-verify-btn">
+                    Verify Credential <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+
+
+
     </section>
 
 

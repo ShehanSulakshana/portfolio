@@ -450,3 +450,208 @@ typeWriter();
 
     init();
 })();
+
+
+// BADGES SUB-SECTION
+
+window.BADGES_DATA = [
+  {
+    title: "GitHub For Beginners",
+    issuer: "Microsoft Student Ambassadors",
+    date: "Issued Jul 2026",
+    skills: "Git, GitHub, Version Control",
+    link: "https://github.com/nisalgunawardhana/Github-for-beginners/issues/1018#issuecomment-5012249370",
+    img: "static/badges/github-beginners.png"
+  },
+  {
+    title: "Networking Basics",
+    issuer: "Cisco Networking Academy",
+    date: "Issued Dec 2025",
+    skills: "Networking Fundamentals, Protocols, OSI Model",
+    link: "https://www.credly.com/badges/ec03e1af-01c9-4aa4-858a-e5538fd12ed7/public_url",
+    img: "static/badges/networking-basics.png"
+  },
+  {
+    title: "Cybersecurity Basics",
+    issuer: "Cisco Networking Academy",
+    date: "Issued Jan 2026",
+    skills: "Cybersecurity Fundamentals, Threat Analysis",
+    link: "https://www.credly.com/badges/ec03e1af-01c9-4aa4-858a-e5538fd12ed7/public_url",
+    img: "static/badges/cybersecurity-basics.png"
+  },
+  {
+    title: "Build Apps with Flutter",
+    issuer: "Google Developers",
+    date: "Issued Aug 2026",
+    skills: "Flutter, Dart, Mobile Development",
+    link: "https://developers.google.com/profile/badges/playlists/intro-to-flutter?u=shehanss",
+    img: "static/badges/intro-to-flutter.svg"
+  },
+  
+  {
+    title: "Material Design Flutter",
+    issuer: "Google Developers",
+    date: "Issued Aug 2026",
+    skills: "Material Design, Flutter, UI/UX",
+    link: "https://developers.google.com/profile/badges/playlists/implement-material-design-with-material-components?u=shehanss",
+    img: "static/badges/material-design-with-flutter.svg"
+  },
+  {
+    title: "Firebase And Flutter",
+    issuer: "Google Developers",
+    date: "Issued Jul 2026",
+    skills: "Firebase, Flutter, Mobile Development",
+    link: "https://developers.google.com/profile/badges/playlists/firebase/add_firebase_to_flutter?u=shehanss",
+    img: "static/badges/firebase-flutter.svg"
+  },
+  {
+    title: "Firebase And Flutter : Advanced",
+    issuer: "Google Developers",
+    date: "Issued Aug 2026",
+    skills: "Firebase, Flutter, Mobile Development",
+    link: "https://developers.google.com/profile/badges/playlists/firebase/firebase-flutter-advanced?u=shehanss",
+    img: "static/badges/advanced-firebase-flutter.svg"
+  }
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector(".badges-container");
+  const rowsEl = document.getElementById("badgesRows");
+  if (!container || !rowsEl) return;
+
+  const data = Array.isArray(window.BADGES_DATA) ? window.BADGES_DATA : [];
+  if (data.length === 0) return;
+
+  const perRow = parseInt(container.dataset.perRow, 10) || 4;
+  const toggleBtn = document.getElementById("toggleBadgesBtn");
+  const toggleText = document.getElementById("toggleText");
+
+  const modal = document.getElementById("badgeModal");
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
+  const rows = [];
+  for (let i = 0; i < data.length; i += perRow) {
+    rows.push(data.slice(i, i + perRow));
+  }
+
+  function initials(str) {
+    return (str || "?")
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(w => w[0].toUpperCase())
+      .join("");
+  }
+
+  function chipMarkup(badge) {
+    const safe = (s) => (s || "").toString();
+    return `
+      <button class="badge-chip"
+        data-title="${safe(badge.title)}"
+        data-issuer="${safe(badge.issuer)}"
+        data-date="${safe(badge.date)}"
+        data-skills="${safe(badge.skills)}"
+        data-link="${safe(badge.link)}"
+        data-img="${safe(badge.img)}">
+        <span class="badge-chip-icon-wrap">
+          <img src="${safe(badge.img)}" alt="" class="badge-chip-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <span class="badge-chip-fallback" style="display:none;">${initials(badge.issuer || badge.title)}</span>
+        </span>
+        <span class="badge-chip-name">${safe(badge.title)}</span>
+      </button>`;
+  }
+
+  const firstRow = document.createElement("div");
+  firstRow.className = "badges-chips";
+  firstRow.innerHTML = rows[0].map(chipMarkup).join("");
+  rowsEl.appendChild(firstRow);
+
+  // "See more"
+  const extraRowWrappers = [];
+  for (let i = 1; i < rows.length; i++) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "badge-row-wrapper badge-row-collapsed";
+    wrapper.innerHTML = `<div class="badge-row-inner"><div class="badges-chips">${rows[i].map(chipMarkup).join("")}</div></div>`;
+    rowsEl.appendChild(wrapper);
+    extraRowWrappers.push(wrapper);
+  }
+
+  // "See more"
+  let revealedCount = 0;
+
+  function updateToggleLabel() {
+    const remaining = extraRowWrappers.length - revealedCount;
+    if (remaining > 0) {
+      toggleText.textContent = "See more";
+      toggleBtn.classList.remove("expanded");
+    } else {
+      toggleText.textContent = "Show less";
+      toggleBtn.classList.add("expanded");
+    }
+  }
+
+  if (extraRowWrappers.length > 0) {
+    toggleBtn.hidden = false;
+    updateToggleLabel();
+
+    toggleBtn.addEventListener("click", () => {
+      const remaining = extraRowWrappers.length - revealedCount;
+
+      if (remaining > 0) {
+        // Reveal the next collapsed row.
+        extraRowWrappers[revealedCount].classList.remove("badge-row-collapsed");
+        revealedCount++;
+      } else {
+        // Everything is revealed — collapse back down to just the first row.
+        extraRowWrappers.forEach(w => w.classList.add("badge-row-collapsed"));
+        revealedCount = 0;
+      }
+
+      updateToggleLabel();
+    });
+  }
+
+
+  rowsEl.addEventListener("click", (e) => {
+    const chip = e.target.closest(".badge-chip");
+    if (!chip) return;
+    openBadgeModal({
+      title: chip.dataset.title,
+      issuer: chip.dataset.issuer,
+      date: chip.dataset.date,
+      skills: chip.dataset.skills,
+      link: chip.dataset.link,
+      img: chip.dataset.img
+    });
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeBadgeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) closeBadgeModal();
+  });
+});
+
+// BADGE MODAL DIALOG
+function openBadgeModal({ title, issuer, date, skills, link, img }) {
+  document.getElementById("modalTitle").textContent = title || "";
+  document.getElementById("modalIssuer").textContent = issuer || "";
+  document.getElementById("modalDate").textContent = date || "";
+  document.getElementById("modalSkills").textContent = skills || "";
+  document.getElementById("modalVerifyLink").href = link || "#";
+  const img_el = document.getElementById("modalImg");
+  img_el.style.display = "";
+  img_el.src = img || "";
+  img_el.alt = title || "";
+  img_el.onerror = () => { img_el.style.display = "none"; };
+  document.getElementById("badgeModal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeBadgeModal() {
+  document.getElementById("badgeModal").classList.remove("active");
+  document.body.style.overflow = "";
+}
