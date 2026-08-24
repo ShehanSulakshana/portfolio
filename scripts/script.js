@@ -1,5 +1,6 @@
 lucide.createIcons();
 
+
 //Mobile nav
 const mobileToggle = document.getElementById('mobileToggle');
 const navLinks = document.getElementById('navLinks');

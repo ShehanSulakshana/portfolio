@@ -4,22 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shehan Sulakshana | Portfolio</title>
     <title>Shehan Sulakshana | Flutter Developer & Cybersecurity Student (Sri Lanka)</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
-    <meta name="keywords" content="Flutter developer Sri Lanka, cybersecurity student Sri Lanka, freelance app developer, mobile app development, ethical hacking student, OUSL IT undergraduate ,Open University of Sri Lanka, secure app development, Shehan Sulakshana portfolio">
-    
+    <meta name="description"
+        content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
+    <meta name="keywords"
+        content="Flutter developer Sri Lanka, cybersecurity student Sri Lanka, freelance app developer, mobile app development, ethical hacking student, OUSL IT undergraduate ,Open University of Sri Lanka, secure app development, Shehan Sulakshana portfolio">
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Shehan Sulakshana | Flutter Developer & Cybersecurity Student (Sri Lanka)">
-    <meta property="og:description" content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
+    <meta property="og:description"
+        content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/163650030?v=4">
     <meta property="og:url" content="https://shehan-sulakshana.is-a.dev/">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Shehan Sulakshana | Flutter Developer & Cybersecurity Student (Sri Lanka)">
-    <meta name="twitter:description" content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
+    <meta name="twitter:description"
+        content="Shehan Sulakshana — BSc IT (Cybersecurity) undergraduate at OUSL and freelance Flutter developer in Sri Lanka. Building secure mobile apps and secure systems.">
     <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/163650030?v=4">
 
     <!-- Styles -->
@@ -61,6 +64,8 @@
 </head>
 
 <body>
+    <canvas id="particle-bg" aria-hidden="true"></canvas>
+
     <!-- Nav -->
     <nav>
         <div class="nav-container">
@@ -82,30 +87,62 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <div class="hero-grid-overlay" aria-hidden="true"></div>
+
         <div class="hero-content">
-            <div class="hero-profile-container">
-                <img src="https://avatars.githubusercontent.com/u/163650030?v=4" alt="Shehan Sulakshana" class="avatar">
-                <div class="status-badge">
-                    <i data-lucide="sparkles" style="width:18px;height:18px"></i>
-                    <span>Learning.Defending.Innovating.</span>
-                </div>
-            </div>
+
             <div class="hero-content-container">
 
-                <h1>Defending Systems.</h1>
-                <h2>Engineering Secure Apps.</h2>
+                <!-- <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span>Available for Freelance &amp; Internship Work</span>
+                </div> -->
 
+                <h1 class="hero-title">Hey, I'm
+                <span class="text-gradient">Shehan Sulakshana</span>
+                </h1>
 
-                <div class="terminal hero-subtitle" style="height: 4rem; overflow: hidden;">
-                    <div id="typewriter" class="typewriter"></div>
-                    <div class="cursor" id="cursor"></div>
+                <div class="terminal hero-terminal">
+                    <div class="hero-terminal-bar">
+                        <span class="hero-terminal-dot dot-red"></span>
+                        <span class="hero-terminal-dot dot-yellow"></span>
+                        <span class="hero-terminal-dot dot-green"></span>
+                        <span class="hero-terminal-path">shehan@portfolio:~</span>
+                    </div>
+                    <div class="hero-terminal-body">
+                        <span class="prompt-symbol">$</span>
+                        <span id="typewriter" class="typewriter"></span><span class="cursor" id="cursor"></span>
+                    </div>
                 </div>
-                <!-- <p class="hero-subtitle">Cyber Security Enthusiast & Flutter developer</p> -->
-                <p class="hero-description">BSc Information Technology Undergraduate<br>
-                    Open University Of Sri Lanka</p>
+
+                <p class="hero-description">
+                    BSc Information Technology undergraduate at OUSL.
+                    <span class="text-gradient"> | </span>
+                    Flutter Mobile App Developer
+                    <span class="text-gradient"> | </span>
+                    Cybersecurity Enthusiast
+                </p>
+
+                <!-- <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">4.0</span>
+                        <span class="hero-stat-label">GPA · Dean's Award</span>
+                    </div>
+                    <div class="hero-stat-divider" aria-hidden="true"></div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">6+</span>
+                        <span class="hero-stat-label">Projects Shipped</span>
+                    </div>
+                    <div class="hero-stat-divider" aria-hidden="true"></div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">4</span>
+                        <span class="hero-stat-label">Certifications</span>
+                    </div>
+                </div> -->
+
                 <div class="cta-buttons">
                     <a href="#projects" class="btn btn-primary">
-                        Explore My Work
+                        View My Work
                         <i data-lucide="arrow-right" style="width:18px;height:18px"></i>
                     </a>
                     <a href="#contact" class="btn btn-outline">
@@ -117,10 +154,38 @@
                         <i data-lucide="download" style="width:18px;height:18px"></i>
                     </a> -->
                 </div>
+
+                <!-- <div class="hero-socials">
+                    <a href="https://github.com/ShehanSulakshana" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub profile"><i data-lucide="github"></i></a>
+                    <a href="https://www.linkedin.com/in/shehan-sulakshana-129758342" target="_blank"
+                        rel="noopener noreferrer" aria-label="LinkedIn profile"><i data-lucide="linkedin"></i></a>
+                    <a href="https://www.facebook.com/shehan.sulakshana.01" target="_blank" rel="noopener noreferrer"
+                        aria-label="Facebook profile"><i data-lucide="facebook"></i></a>
+                </div> -->
             </div>
 
+            <div class="hero-visual">
+                <div class="hero-visual-glow" aria-hidden="true"></div>
+                <div class="hero-photo-frame">
+                    <!-- <div class="hero-photo-frame-scan" aria-hidden="true"></div> -->
+                    <img src="https://avatars.githubusercontent.com/u/163650030?v=4" alt="Shehan Sulakshana"
+                        class="avatar">
+                </div>
+                <!-- <div class="hero-visual-tag hero-visual-tag--location">
+                    <i data-lucide="map-pin" style="width:14px;height:14px"></i> Sri Lanka
+                </div> -->
+                <!-- <div class="hero-visual-tag hero-visual-tag--role">
+                    <i data-lucide="shield-check" style="width:14px;height:14px"></i> Opern To Work
+                </div> -->
+            </div>
 
         </div>
+
+        <a href="#about-me" class="hero-scroll-cue" aria-label="Scroll to About Me section">
+            <span>Scroll</span>
+            <i data-lucide="chevron-down" style="width:16px;height:16px"></i>
+        </a>
     </section>
 
     <section id="about-me">
@@ -236,8 +301,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-active">Active</span>
                     <div class="project-media">
-                        <img src="static/project-images/port-scanner.png" alt="Terminal output of a Python-based network port scanner tool"
-                            class="project-image">
+                        <img src="static/project-images/port-scanner.png"
+                            alt="Terminal output of a Python-based network port scanner tool" class="project-image">
                     </div>
                     <div class="project-body">
                         <h3>Port Scanner</h3>
@@ -255,7 +320,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-active">Active</span>
                     <div class="project-media">
-                        <img src="static/project-images/ip-checkout.png" alt="Terminal output of a Python-based IP lookup and domain checking tool"
+                        <img src="static/project-images/ip-checkout.png"
+                            alt="Terminal output of a Python-based IP lookup and domain checking tool"
                             class="project-image">
                     </div>
                     <div class="project-body">
@@ -332,7 +398,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-ongoing">Ongoing</span>
                     <div class="project-media">
-                        <img src="static/project-images/truenote-app.jpg" alt="TrueNote Flutter note-taking app screenshot with cloud synchronization"
+                        <img src="static/project-images/truenote-app.jpg"
+                            alt="TrueNote Flutter note-taking app screenshot with cloud synchronization"
                             class="project-image">
                     </div>
                     <div class="project-body">
@@ -351,7 +418,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-active">Active</span>
                     <div class="project-media">
-                        <img src="static/project-images/cineecho-app.jpg" alt="CineEcho Flutter movie guidance app screenshot showing movie discovery and watch time stats"
+                        <img src="static/project-images/cineecho-app.jpg"
+                            alt="CineEcho Flutter movie guidance app screenshot showing movie discovery and watch time stats"
                             class="project-image">
                     </div>
                     <div class="project-body">
@@ -371,7 +439,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-active">Active</span>
                     <div class="project-media">
-                        <img src="static/project-images/weather-app.svg" alt="Weather App Flutter application screenshot showing current weather and forecast using OpenWeather API"
+                        <img src="static/project-images/weather-app.svg"
+                            alt="Weather App Flutter application screenshot showing current weather and forecast using OpenWeather API"
                             class="project-image">
                     </div>
                     <div class="project-body">
@@ -390,7 +459,8 @@
                     style="cursor:pointer;">
                     <span class="project-badge badge-active">Active</span>
                     <div class="project-media">
-                        <img src="static/project-images/student-system.svg" alt="Student System Java application screenshot showing student records management interface"
+                        <img src="static/project-images/student-system.svg"
+                            alt="Student System Java application screenshot showing student records management interface"
                             class="project-image">
                     </div>
                     <div class="project-body">
@@ -569,9 +639,10 @@
                 <h3 class="badges-title">
                     <i class="fas fa-award"></i> Verified Badges & Micro-Credentials
                 </h3>
-                <span class="badges-subtitle">Applied technical skills validated through interactive labs and assessments</span>
+                <span class="badges-subtitle">Applied technical skills validated through interactive labs and
+                    assessments</span>
             </div>
-            
+
             <!-- All injected by JS-->
             <div class="badges-rows" id="badgesRows"></div>
 
@@ -822,6 +893,7 @@
         <!-- <p style="margin-top:1rem;font-size:0.9rem">Built with ❤️ , by Shehan</p> -->
     </footer>
 </body>
+<script src="scripts/particles.js"></script>
 <script src="scripts/script.js"></script>
 
 </html>
