@@ -158,9 +158,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 const lines = [
-    'shehan@portfolio:~$whoami',
-    'Flutter Mobile Developer',
-    'Cybersecurity Enthusiast'
+    'whoami',
+    'Mobile Developer',
+    'Cybersecurity Enthusiast',
+    'Bsc.IT Undergraduate at OUSL',
         ];
 
 let currentLine = 0;
@@ -317,6 +318,7 @@ typeWriter();
     let currentIndex = 0;
     let autoTimer = null;
     let isHovering = false;
+    let isPageVisible = !document.hidden;
 
     function createItem(data, index) {
         const item = document.createElement('div');
@@ -339,8 +341,19 @@ typeWriter();
             </div>
         `;
 
+        item.setAttribute('role', 'button');
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('aria-label', `View ${data.title} certificate`);
+
         item.addEventListener('click', (e) => {
             if (index !== currentIndex) {
+                e.preventDefault();
+                goToSlide(index);
+            }
+        });
+
+        item.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && index !== currentIndex) {
                 e.preventDefault();
                 goToSlide(index);
             }
@@ -403,7 +416,12 @@ typeWriter();
 
     function startAuto() {
         stopAuto();
-        autoTimer = setInterval(() => { if (!isHovering) nextSlide(); }, 4500);
+        // Only auto-advance while the tab/window is active (visible) and the
+        // user isn't hovering the carousel — prevents background CPU/battery
+        // use and unwanted jumps while the user is away from the tab.
+        autoTimer = setInterval(() => {
+            if (!isHovering && isPageVisible) nextSlide();
+        }, 4500);
     }
     function stopAuto() { if (autoTimer) clearInterval(autoTimer); }
 
@@ -426,6 +444,29 @@ typeWriter();
 
         container.addEventListener('mouseenter', () => (isHovering = true));
         container.addEventListener('mouseleave', () => (isHovering = false));
+
+        // Pause auto-scroll entirely when the browser tab/window is not
+        // active (backgrounded, minimized, or another tab is focused), and
+        // resume it when the user comes back.
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (isPageVisible) {
+                startAuto();
+            } else {
+                stopAuto();
+            }
+        });
+
+        // Extra safety net for browsers/window managers that fire
+        // focus/blur without a visibilitychange event.
+        window.addEventListener('blur', () => {
+            isPageVisible = false;
+            stopAuto();
+        });
+        window.addEventListener('focus', () => {
+            isPageVisible = true;
+            startAuto();
+        });
 
         // Swipe support
         let touchStartX = 0;

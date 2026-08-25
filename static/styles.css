@@ -452,8 +452,8 @@ nav.scrolled {
     inset: 0;
     z-index: -1;
     background-image:
-        linear-gradient(rgba(183, 148, 244, 0.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(183, 148, 244, 0.055) 1px, transparent 1px);
+        linear-gradient(rgba(183, 148, 244, 0.085) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(183, 148, 244, 0.085) 1px, transparent 1px);
     background-size: 42px 42px;
     mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 40%, transparent 85%);
     -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 30%, #000 40%, transparent 85%);
@@ -525,7 +525,8 @@ nav.scrolled {
 }
 
 .hero-title .text-gradient {
-    background: linear-gradient(135deg, #f1f5ff, var(--accent-blue), var(--accent-purple));
+    background: linear-gradient(135deg, var(--accent-purple) ,
+        var(--accent-blue) ,var(--accent-purple) , var(--accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -746,7 +747,7 @@ nav.scrolled {
     border: none;
 }
 
-/* .hero-photo-frame-scan {
+.hero-photo-frame-scan {
     position: absolute;
     left: 4px;
     right: 4px;
@@ -756,7 +757,7 @@ nav.scrolled {
     opacity: 0.85;
     animation: scan-line 3.2s ease-in-out infinite;
     pointer-events: none;
-} */
+}
 
 @keyframes scan-line {
 
@@ -1615,8 +1616,8 @@ section.visible {
     }
 
     .hero-photo-frame {
-        width: 380px;
-        height: 380px;
+        width: 400px;
+        height: 400px;
         border-radius: 32px;
     }
 
@@ -1687,10 +1688,6 @@ section.visible {
         flex-direction: column;
         gap: 0.5rem;
         text-align: center;
-    }
-
-    .text-gradient{
-        white-space: nowrap;
     }
 }
 
