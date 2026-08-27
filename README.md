@@ -2,7 +2,7 @@
 
 Live: https://shehan-sulakshana.is-a.dev
 
-![Portfolio Screenshot](static/screenshot.jpeg)
+![Portfolio Screenshot](static/portfolio-screenshot.png)
 
 Cyber Security & Flutter development portfolio featuring live projects, learning journey, and skills showcase.
 
