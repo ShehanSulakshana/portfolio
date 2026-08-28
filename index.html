@@ -182,10 +182,10 @@
 
         </div>
 
-        <!-- <a href="#about-me" class="hero-scroll-cue" aria-label="Scroll to About Me section">
+        <a href="#about-me" class="hero-scroll-cue" aria-label="Scroll to About Me section">
             <span>Scroll</span>
             <i data-lucide="chevron-down" style="width:16px;height:16px"></i>
-        </a> -->
+        </a>
     </section>
 
     <section id="about-me">
@@ -276,207 +276,25 @@
         <div class="section-header">
             <div class="section-label">Current Work</div>
             <h2 class="section-title">Featured Projects</h2>
-            <p class="section-description">Practical projects in cybersecurity and application development.</p>
-        </div>
-        <div class="tab-buttons">
-            <button class="tab-btn active" data-tab="defense">Security</button>
-            <button class="tab-btn" data-tab="app">Development</button>
+            <p class="section-description">Practical projects in cybersecurity and development.</p>
         </div>
 
-        <div class="tab-content active" data-tab-content="defense">
-            <div class="cards-grid">
-                <!-- <div class="glass-card">
-                    <span class="project-badge badge-active">Active</span>
-                    <h3>Security Lab</h3>
-                    <p>Setting up Kali Linux lab with vulnerable VMs for pentesting practice</p>
-                </div> -->
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/PortScanner', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-active">Active</span>
-                    <div class="project-media">
-                        <img src="static/project-images/port-scanner.png"
-                            alt="Terminal output of a Python-based network port scanner tool" class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>Port Scanner</h3>
-                        <p>Python tool for network reconnaissance</p>
-                        <div class="project-tech-list">
-                            <span>Python</span>
-                            <span>Sockets</span>
-                            <span>Networking</span>
-                            <span>Reconnaissance</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/IP-Checkout', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-active">Active</span>
-                    <div class="project-media">
-                        <img src="static/project-images/ip-checkout.png"
-                            alt="Terminal output of a Python-based IP lookup and domain checking tool"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>IP Lookup</h3>
-                        <p>Script for IP analysis and domain checking</p>
-                        <div class="project-tech-list">
-                            <span>Python</span>
-                            <span>APIs</span>
-                            <span>IP Analysis</span>
-                            <span>DNS Checks</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="glass-card project-card">
-                    <span class="project-badge badge-learning">Learning</span>
-                    <div class="project-media">
-                        <img src="static/project-images/ctf-practice.svg" alt="CTF Practice project preview"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>CTF Practice</h3>
-                        <p>Solving challenges on TryHackMe and HackTheBox platforms</p>
-                        <div class="project-tech-list">
-                            <span>TryHackMe</span>
-                            <span>Hack The Box</span>
-                            <span>Linux</span>
-                            <span>Problem Solving</span>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="glass-card project-card">
-                    <span class="project-badge badge-learning">Learning</span>
-                    <div class="project-media">
-                        <img src="static/project-images/security-plus-study.svg" alt="Security+ Study project preview"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>Security+ Study</h3>
-                        <p>Preparing for CompTIA Security+ certification</p>
-                        <div class="project-tech-list">
-                            <span>CompTIA Security+</span>
-                            <span>Networking</span>
-                            <span>Risk Concepts</span>
-                            <span>Study Notes</span>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="glass-card project-card">
-                    <span class="project-badge badge-learning">learning</span>
-                    <div class="project-media">
-                        <img src="static/project-images/network-analysis.svg" alt="Network Analysis project preview"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>Network Analysis</h3>
-                        <p>Learning Wireshark and network security monitoring</p>
-                        <div class="project-tech-list">
-                            <span>Wireshark</span>
-                            <span>TCP/IP</span>
-                            <span>Packet Analysis</span>
-                            <span>Monitoring</span>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+        <div class="project-filters" id="projectFilters" role="tablist" aria-label="Filter projects by category">
+            <!-- Filter pills injected by JS -->
         </div>
 
-        <div class="tab-content" data-tab-content="app">
-
-            <div class="cards-grid">
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/TrueNote', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-ongoing">Ongoing</span>
-                    <div class="project-media">
-                        <img src="static/project-images/truenote-app.jpg"
-                            alt="TrueNote Flutter note-taking app screenshot with cloud synchronization"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>TrueNote App</h3>
-                        <p>Flutter note-taking app with cloud synchronization capabilities.</p>
-                        <div class="project-tech-list">
-                            <span>Flutter</span>
-                            <span>Dart</span>
-                            <span>Firebase</span>
-                            <span>State Management</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/CineEcho', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-active">Active</span>
-                    <div class="project-media">
-                        <img src="static/project-images/cineecho-app.jpg"
-                            alt="CineEcho Flutter movie guidance app screenshot showing movie discovery and watch time stats"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>CineEcho App</h3>
-                        <p>Flutter movie guidance app powered by TMDB API. Discover movies, track watch time stats, and
-                            share.</p>
-                        <div class="project-tech-list">
-                            <span>Flutter</span>
-                            <span>Dart</span>
-                            <span>TMDB API</span>
-                            <span>State Management</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/WeatherApp', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-active">Active</span>
-                    <div class="project-media">
-                        <img src="static/project-images/weather-app.svg"
-                            alt="Weather App Flutter application screenshot showing current weather and forecast using OpenWeather API"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>Weather App</h3>
-                        <p>Flutter Weather app by using OpenWeather API</p>
-                        <div class="project-tech-list">
-                            <span>Flutter</span>
-                            <span>Dart</span>
-                            <span>OpenWeather API</span>
-                            <span>UI Design</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="glass-card project-card"
-                    onclick="window.open('https://github.com/ShehanSulakshana/StudentManagementSystem', '_blank')"
-                    style="cursor:pointer;">
-                    <span class="project-badge badge-active">Active</span>
-                    <div class="project-media">
-                        <img src="static/project-images/student-system.svg"
-                            alt="Student System Java application screenshot showing student records management interface"
-                            class="project-image">
-                    </div>
-                    <div class="project-body">
-                        <h3>Student System</h3>
-                        <p>Java app with MySQL for student records</p>
-                        <div class="project-tech-list">
-                            <span>Java</span>
-                            <span>MySQL</span>
-                            <span>CRUD</span>
-                            <span>OOP</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="glass-card">
-                    <span class="project-badge badge-learning">Learning</span>
-                    <h3>Flutter UI</h3>
-                    <p>Building components and learning state management</p>
-                </div> -->
-
-
-            </div>
+        <div class="cards-grid" id="projectsGrid">
+            <!-- Project cards injected by JS -->
         </div>
+
+        <button class="projects-see-more" id="toggleProjectsBtn" hidden>
+            <span id="toggleProjectsText">See more</span>
+            <svg id="toggleProjectsIcon" class="toggle-chevron" width="14" height="14" viewBox="0 0 24 24"
+                fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
     </section>
 
     <hr class="section-divider">

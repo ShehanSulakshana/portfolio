@@ -1,5 +1,10 @@
 lucide.createIcons();
 
+//Particle Background
+
+
+
+
 
 //Mobile nav
 const mobileToggle = document.getElementById('mobileToggle');
@@ -30,14 +35,213 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
-// Tab 
-window.switchTab = function (tabName) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabName).classList.add('active');
-    event.target.closest('.tab-btn').classList.add('active');
-    lucide.createIcons();
-};
+// PROJECTS SECTION — data-driven, category filterable, "See more" on mobile
+window.PROJECT_CATEGORIES = [
+    { id: "security", label: "Cybersecurity" },
+    { id: "development", label: "Development" }
+];
+
+// order: 1 = most recent. Add new projects anywhere in the array; the list
+// is sorted by "order" automatically so this array does not need to stay sorted.
+window.PROJECTS_DATA = [
+    {
+        title: "TrueNote App",
+        description: "Flutter note-taking app with cloud synchronization capabilities.",
+        image: "static/project-images/truenote-app.jpg",
+        alt: "TrueNote Flutter note-taking app screenshot with cloud synchronization",
+        link: "https://github.com/ShehanSulakshana/TrueNote",
+        category: "development",
+        status: "Ongoing",
+        techs: ["Flutter", "Dart", "Firebase", "State Management"],
+        order: 1
+    },
+    {
+        title: "CineEcho App",
+        description: "Flutter movie guidance app powered by TMDB API. Discover movies, track watch time stats, and share.",
+        image: "static/project-images/cineecho-app.jpg",
+        alt: "CineEcho Flutter movie guidance app screenshot showing movie discovery and watch time stats",
+        link: "https://github.com/ShehanSulakshana/CineEcho",
+        category: "development",
+        status: "Active",
+        techs: ["Flutter", "Dart", "TMDB API", "State Management"],
+        order: 2
+    },
+    {
+        title: "Port Scanner",
+        description: "Python tool for network reconnaissance",
+        image: "static/project-images/port-scanner.png",
+        alt: "Terminal output of a Python-based network port scanner tool",
+        link: "https://github.com/ShehanSulakshana/PortScanner",
+        category: "security",
+        status: "Active",
+        techs: ["Python", "Sockets", "Networking", "Reconnaissance"],
+        order: 3
+    },
+    {
+        title: "IP Lookup",
+        description: "Script for IP analysis and domain checking",
+        image: "static/project-images/ip-checkout.png",
+        alt: "Terminal output of a Python-based IP lookup and domain checking tool",
+        link: "https://github.com/ShehanSulakshana/IP-Checkout",
+        category: "security",
+        status: "Active",
+        techs: ["Python", "APIs", "IP Analysis", "DNS Checks"],
+        order: 4
+    },
+    {
+        title: "Weather App",
+        description: "Flutter Weather app by using OpenWeather API",
+        image: "static/project-images/weather-app.svg",
+        alt: "Weather App Flutter application screenshot showing current weather and forecast using OpenWeather API",
+        link: "https://github.com/ShehanSulakshana/WeatherApp",
+        category: "development",
+        status: "Active",
+        techs: ["Flutter", "Dart", "OpenWeather API", "UI Design"],
+        order: 5
+    },
+    {
+        title: "Student System",
+        description: "Java app with MySQL for student records",
+        image: "static/project-images/student-system.svg",
+        alt: "Student System Java application screenshot showing student records management interface",
+        link: "https://github.com/ShehanSulakshana/StudentManagementSystem",
+        category: "development",
+        status: "Active",
+        techs: ["Java", "MySQL", "CRUD", "OOP"],
+        order: 6
+    }
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+    const filtersEl = document.getElementById("projectFilters");
+    const gridEl = document.getElementById("projectsGrid");
+    const toggleBtn = document.getElementById("toggleProjectsBtn");
+    const toggleText = document.getElementById("toggleProjectsText");
+    if (!filtersEl || !gridEl) return;
+
+    const projects = (Array.isArray(window.PROJECTS_DATA) ? window.PROJECTS_DATA.slice() : [])
+        .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+    if (projects.length === 0) return;
+
+    const configuredCategories = Array.isArray(window.PROJECT_CATEGORIES) ? window.PROJECT_CATEGORIES : [];
+    // Only show category pills that actually have at least one project,
+    // and fall back to auto-generating a label for any category not pre-configured.
+    const usedCategoryIds = [...new Set(projects.map(p => p.category))];
+    const categories = usedCategoryIds.map(id => {
+        const known = configuredCategories.find(c => c.id === id);
+        return known || { id, label: id.charAt(0).toUpperCase() + id.slice(1) };
+    });
+
+    const STATUS_BADGE_CLASS = {
+        active: "badge-active",
+        ongoing: "badge-ongoing",
+        learning: "badge-learning"
+    };
+
+    const MOBILE_QUERY = window.matchMedia("(max-width: 768px)");
+    const MOBILE_INITIAL_COUNT = 6;
+    const DESKTOP_INITIAL_COUNT = 3;
+
+    let activeCategory = "all";
+    let expanded = false; // whether the mobile "See more" state is expanded
+
+    function projectCardMarkup(project) {
+        const safe = (s) => (s || "").toString();
+        const statusClass = STATUS_BADGE_CLASS[safe(project.status).toLowerCase()] || "badge-active";
+        const techs = Array.isArray(project.techs) ? project.techs : [];
+        return `
+        <div class="glass-card project-card" data-category="${safe(project.category)}"
+            role="link" tabindex="0" style="cursor:pointer;"
+            aria-label="${safe(project.title)} — open project on GitHub">
+            <span class="project-badge ${statusClass}">${safe(project.status)}</span>
+            <div class="project-media">
+                <img src="${safe(project.image)}" alt="${safe(project.alt)}" class="project-image" loading="lazy">
+            </div>
+            <div class="project-body">
+                <h3>${safe(project.title)}</h3>
+                <p>${safe(project.description)}</p>
+                <div class="project-tech-list">
+                    ${techs.map(t => `<span>${safe(t)}</span>`).join("")}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // Render all cards once; filtering/paging is done by toggling classes so
+    // no re-render is needed on interaction.
+    gridEl.innerHTML = projects.map(projectCardMarkup).join("");
+    const cardEls = Array.from(gridEl.querySelectorAll(".project-card"));
+
+    cardEls.forEach((card, i) => {
+        const project = projects[i];
+        const open = () => window.open(project.link, "_blank", "noopener,noreferrer");
+        card.addEventListener("click", open);
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                open();
+            }
+        });
+    });
+
+    // Filter pills
+    filtersEl.innerHTML = [{ id: "all", label: "All" }, ...categories].map(cat => {
+        const count = cat.id === "all" ? projects.length : projects.filter(p => p.category === cat.id).length;
+        return `<button type="button" class="project-filter-btn${cat.id === "all" ? " active" : ""}"
+            data-filter="${cat.id}" role="tab" aria-selected="${cat.id === "all"}">
+            ${cat.label}<span class="filter-count">${count}</span>
+        </button>`;
+    }).join("");
+
+    function applyView() {
+        cardEls.forEach(card => {
+            const inCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+            card.classList.toggle("filtered-out", !inCategory);
+        });
+
+        // "See more" pagination only ever applies to the "All" tab —
+        // category views always show every matching project.
+        const isAllTab = activeCategory === "all";
+        const isMobile = MOBILE_QUERY.matches;
+        const initialCount = isMobile ? MOBILE_INITIAL_COUNT : DESKTOP_INITIAL_COUNT;
+        const shouldPaginate = isAllTab && projects.length > initialCount;
+
+        cardEls.forEach((card, i) => {
+            const beyondInitial = i >= initialCount;
+            card.classList.toggle("hidden-overflow", shouldPaginate && beyondInitial && !expanded);
+        });
+
+        toggleBtn.hidden = !shouldPaginate;
+        if (shouldPaginate) {
+            toggleText.textContent = expanded ? "Show less" : "See more";
+            toggleBtn.classList.toggle("expanded", expanded);
+        } else {
+            expanded = false;
+        }
+    }
+
+    filtersEl.addEventListener("click", (e) => {
+        const btn = e.target.closest(".project-filter-btn");
+        if (!btn) return;
+        activeCategory = btn.dataset.filter;
+        expanded = false;
+        filtersEl.querySelectorAll(".project-filter-btn").forEach(b => {
+            const isActive = b === btn;
+            b.classList.toggle("active", isActive);
+            b.setAttribute("aria-selected", String(isActive));
+        });
+        applyView();
+    });
+
+    toggleBtn.addEventListener("click", () => {
+        expanded = !expanded;
+        applyView();
+    });
+
+    MOBILE_QUERY.addEventListener("change", applyView);
+
+    applyView();
+});
 
 //Main sections
 const sectionObserver = new IntersectionObserver((entries) => {
@@ -117,43 +321,6 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
     lucide.createIcons();
-});
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const tabBtns = document.querySelectorAll('[data-tab]');
-    const tabContents = document.querySelectorAll('[data-tab-content]');
-
-    function switchTab(activeTab) {
-        // Update buttons
-        tabBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.tab === activeTab);
-        });
-
-        // Update content
-        tabContents.forEach(content => {
-            content.classList.toggle('active', content.dataset.tabContent === activeTab);
-        });
-    }
-
-    // Click events
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            switchTab(this.dataset.tab);
-        });
-
-        btn.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                this.click();
-            }
-        });
-    });
-
-    // Initialize first tab
-    if (tabBtns.length > 0) {
-        switchTab(tabBtns[0].dataset.tab);
-    }
 });
 
 
