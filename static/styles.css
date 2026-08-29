@@ -863,6 +863,11 @@ nav.scrolled {
     .hero-scroll-cue {
         animation: none;
     }
+
+    .project-card,
+    .badges-toggle-btn {
+        transition-duration: 0.01ms !important;
+    }
 }
 
 
@@ -930,43 +935,34 @@ nav.scrolled {
     display: none !important;
 }
 
+/* Smooth reveal/collapse for cards paginated by the "See more" control.
+   `.hidden-overflow` fully removes a card from layout (display:none) —
+   the two classes below are the transient animated states used right
+   before adding/removing it, since display:none can't itself transition.
+   Selector uses .glass-card.project-card (specificity 0,2,0) so this
+   always wins over the later `.glass-card { transition: all ... }` rule,
+   which otherwise silently replaces this transition (same property,
+   same specificity, later in the cascade) with its bouncy hover easing. */
+.glass-card.project-card {
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card.card-revealing {
+    opacity: 0;
+    transform: translateY(18px);
+}
+
+.project-card.card-collapsing {
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+}
+
 .projects-see-more {
-    display: none; /* flex */
+    display: flex;
     margin: 2.25rem auto 0;
-
-    /* margin: 1.75rem auto 0; */
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.12));
-    padding: 0.75rem 1.75rem;
-    border-radius: 999px;
-    color: var(--text-secondary, #94a3b8);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    /* display: flex; */
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.projects-see-more:hover,
-.projects-see-more:focus-visible {
-    color: #fff;
-    border-color: transparent;
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.35);
-}
-
-.projects-see-more:focus-visible {
-    outline: 2px solid var(--accent-blue);
-    outline-offset: 3px;
-}
-
-
 
 @media (max-width: 480px) {
     .project-filters {
@@ -2630,7 +2626,34 @@ footer {
     justify-content: center;
     gap: 0.5rem;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* The native `hidden` attribute must always win over the layout rules above —
+   without this, a hidden button still renders because author CSS setting
+   `display` outranks the browser's default `[hidden] { display:none }`. */
+.badges-toggle-btn[hidden] {
+    display: none !important;
+}
+
+/* Transient state applied for one frame while fading the button in. */
+.badges-toggle-btn.btn-animating-in {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Applied while fading the button out, just before `hidden` is (re)set. */
+.badges-toggle-btn.btn-animating-out {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
 }
 
 .badges-toggle-btn:hover,

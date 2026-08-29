@@ -37,7 +37,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 
 // PROJECTS SECTION — data-driven, category filterable, "See more" on mobile
 window.PROJECT_CATEGORIES = [
-    { id: "security", label: "Cybersecurity" },
+    { id: "security", label: "Security" },
     { id: "development", label: "Development" }
 ];
 
