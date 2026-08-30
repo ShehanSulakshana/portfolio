@@ -30,7 +30,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         isMenuOpen = false;
         navLinks.classList.remove('active');
-        mobileToggle.innerHTML = '<i data-lucide="menu" style="width:24px;height:24px"></i>';
+        mobileToggle.innerHTML = '<i data-lucide="menu" style="width:24px;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)"></i>';
         lucide.createIcons();
     });
 });
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const MOBILE_QUERY = window.matchMedia("(max-width: 768px)");
     const MOBILE_INITIAL_COUNT = 6;
-    const DESKTOP_INITIAL_COUNT = 3;
+    const DESKTOP_INITIAL_COUNT = 12;
 
     let activeCategory = "all";
     let expanded = false; // whether the mobile "See more" state is expanded
@@ -193,12 +193,16 @@ document.addEventListener("DOMContentLoaded", () => {
         </button>`;
     }).join("");
 
-    function applyView() {
-        cardEls.forEach(card => {
-            const inCategory = activeCategory === "all" || card.dataset.category === activeCategory;
-            card.classList.toggle("filtered-out", !inCategory);
-        });
+    const REDUCE_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const COLLAPSE_MS = 400; // must match .glass-card.project-card transition duration
+    let isFirstRender = true;
+    let pendingHideTimer = null;
 
+    function isCardVisible(card) {
+        return !card.classList.contains("filtered-out") && !card.classList.contains("hidden-overflow");
+    }
+
+    function applyView() {
         // "See more" pagination only ever applies to the "All" tab —
         // category views always show every matching project.
         const isAllTab = activeCategory === "all";
@@ -206,10 +210,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const initialCount = isMobile ? MOBILE_INITIAL_COUNT : DESKTOP_INITIAL_COUNT;
         const shouldPaginate = isAllTab && projects.length > initialCount;
 
-        cardEls.forEach((card, i) => {
+        const cardMeta = cardEls.map((card, i) => {
+            const inCategory = activeCategory === "all" || card.dataset.category === activeCategory;
             const beyondInitial = i >= initialCount;
-            card.classList.toggle("hidden-overflow", shouldPaginate && beyondInitial && !expanded);
+            const hiddenByPagination = shouldPaginate && beyondInitial && !expanded;
+            return {
+                filteredOut: !inCategory,
+                hiddenOverflow: inCategory && hiddenByPagination,
+                visible: inCategory && !hiddenByPagination
+            };
         });
+
+        transitionCards(cardMeta);
 
         toggleBtn.hidden = !shouldPaginate;
         if (shouldPaginate) {
@@ -217,6 +229,105 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleBtn.classList.toggle("expanded", expanded);
         } else {
             expanded = false;
+        }
+    }
+
+    // Applies the resolved filtered-out/hidden-overflow classes instantly,
+    // with no animation. Used on first render and for reduced-motion users.
+    function setClassesInstant(cardMeta) {
+        cardEls.forEach((card, i) => {
+            const meta = cardMeta[i];
+            card.classList.remove("card-revealing", "card-collapsing");
+            card.style.transform = "";
+            card.style.transition = "";
+            card.classList.toggle("filtered-out", meta.filteredOut);
+            card.classList.toggle("hidden-overflow", meta.hiddenOverflow);
+        });
+    }
+
+    // Animates between filter/pagination states:
+    //  - cards leaving fade + settle down (card-collapsing) before being
+    //    pulled out of layout with display:none
+    //  - cards already visible smoothly reflow into their new grid slot
+    //    using the FLIP technique, once the leavers have been removed
+    //  - cards entering fade + rise into place (card-revealing)
+    function transitionCards(cardMeta) {
+        if (pendingHideTimer) {
+            clearTimeout(pendingHideTimer);
+            pendingHideTimer = null;
+        }
+
+        if (isFirstRender || REDUCE_MOTION.matches) {
+            isFirstRender = false;
+            setClassesInstant(cardMeta);
+            return;
+        }
+
+        const staying = [];
+        const entering = [];
+        const leaving = [];
+
+        cardEls.forEach((card, i) => {
+            const wasVisible = isCardVisible(card);
+            const willBeVisible = cardMeta[i].visible;
+            if (willBeVisible && wasVisible) staying.push(card);
+            else if (willBeVisible && !wasVisible) entering.push(card);
+            else if (!willBeVisible && wasVisible) leaving.push(card);
+        });
+
+        // FIRST: capture positions of cards staying visible, before anything moves.
+        const firstRects = new Map();
+        staying.forEach(card => firstRects.set(card, card.getBoundingClientRect()));
+
+        // Fade/settle the outgoing cards in place (they still occupy their grid slot).
+        leaving.forEach(card => card.classList.add("card-collapsing"));
+
+        const finishTransition = () => {
+            leaving.forEach(card => {
+                card.classList.remove("card-collapsing");
+            });
+
+            // Pull leavers out of the grid, then bring the entering cards in.
+            cardEls.forEach((card, i) => {
+                const meta = cardMeta[i];
+                card.classList.toggle("filtered-out", meta.filteredOut);
+                card.classList.toggle("hidden-overflow", meta.hiddenOverflow);
+            });
+            entering.forEach(card => card.classList.add("card-revealing"));
+
+            // LAST: measure staying cards' new slots and invert to their old
+            // position, then release on the next frame so the browser
+            // animates the reflow instead of snapping to it.
+            requestAnimationFrame(() => {
+                staying.forEach(card => {
+                    const first = firstRects.get(card);
+                    const last = card.getBoundingClientRect();
+                    const dx = first.left - last.left;
+                    const dy = first.top - last.top;
+                    if (dx || dy) {
+                        card.style.transition = "none";
+                        card.style.transform = `translate(${dx}px, ${dy}px)`;
+                    }
+                });
+
+                requestAnimationFrame(() => {
+                    staying.forEach(card => {
+                        card.style.transition = "";
+                        card.style.transform = "";
+                    });
+                    entering.forEach(card => card.classList.remove("card-revealing"));
+                });
+            });
+        };
+
+        if (leaving.length === 0) {
+            // Nothing to fade out first, so proceed immediately.
+            finishTransition();
+        } else {
+            pendingHideTimer = setTimeout(() => {
+                pendingHideTimer = null;
+                finishTransition();
+            }, COLLAPSE_MS);
         }
     }
 
