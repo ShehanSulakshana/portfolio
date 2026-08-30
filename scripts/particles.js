@@ -61,9 +61,9 @@
             baseRadius: radius,
             from,
             to,
-            // very slow, gentle drift — no interaction, just ambience
-            vx: (Math.random() - 0.5) * 0.1,
-            vy: (Math.random() - 0.5) * 0.1,
+            // slow, gentle drift — no interaction, just ambience
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
             // independent twinkle phase so particles don't pulse in sync
             phase: Math.random() * Math.PI * 2,
             twinkleSpeed: 0.003 + Math.random() * 0.005,
