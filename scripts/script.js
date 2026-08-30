@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const MOBILE_QUERY = window.matchMedia("(max-width: 768px)");
     const MOBILE_INITIAL_COUNT = 6;
-    const DESKTOP_INITIAL_COUNT = 3;
+    const DESKTOP_INITIAL_COUNT = 12;
 
     let activeCategory = "all";
     let expanded = false; // whether the mobile "See more" state is expanded
