@@ -52,6 +52,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/TrueNote",
         category: "development",
         status: "Ongoing",
+        fileLabel: "truenote.dart",
         techs: ["Flutter", "Dart", "Firebase", "State Management"],
         order: 1
     },
@@ -63,6 +64,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/CineEcho",
         category: "development",
         status: "Active",
+        fileLabel: "cineecho.dart",
         techs: ["Flutter", "Dart", "TMDB API", "State Management"],
         order: 2
     },
@@ -74,6 +76,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/PortScanner",
         category: "security",
         status: "Active",
+        fileLabel: "port_scanner.py",
         techs: ["Python", "Sockets", "Networking", "Reconnaissance"],
         order: 3
     },
@@ -85,6 +88,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/IP-Checkout",
         category: "security",
         status: "Active",
+        fileLabel: "ip_lookup.py",
         techs: ["Python", "APIs", "IP Analysis", "DNS Checks"],
         order: 4
     },
@@ -96,6 +100,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/WeatherApp",
         category: "development",
         status: "Active",
+        fileLabel: "weather_app.dart",
         techs: ["Flutter", "Dart", "OpenWeather API", "UI Design"],
         order: 5
     },
@@ -107,6 +112,7 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/StudentManagementSystem",
         category: "development",
         status: "Active",
+        fileLabel: "StudentSystem.java",
         techs: ["Java", "MySQL", "CRUD", "OOP"],
         order: 6
     }
@@ -140,29 +146,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const MOBILE_QUERY = window.matchMedia("(max-width: 768px)");
     const MOBILE_INITIAL_COUNT = 6;
-    const DESKTOP_INITIAL_COUNT = 12;
+    const DESKTOP_INITIAL_COUNT = 3;
 
     let activeCategory = "all";
     let expanded = false; // whether the mobile "See more" state is expanded
+
+    const CODE_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>`;
+
+    const ARROW_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>`;
 
     function projectCardMarkup(project) {
         const safe = (s) => (s || "").toString();
         const statusClass = STATUS_BADGE_CLASS[safe(project.status).toLowerCase()] || "badge-active";
         const techs = Array.isArray(project.techs) ? project.techs : [];
+        const categoryId = safe(project.category);
+        const categoryLabel = (categories.find(c => c.id === categoryId) || { label: categoryId }).label;
+
         return `
-        <div class="glass-card project-card" data-category="${safe(project.category)}"
+        <div class="glass-card project-card" data-category="${categoryId}"
             role="link" tabindex="0" style="cursor:pointer;"
             aria-label="${safe(project.title)} — open project on GitHub">
-            <span class="project-badge ${statusClass}">${safe(project.status)}</span>
             <div class="project-media">
+                <span class="project-badge ${statusClass}">${safe(project.status)}</span>
                 <img src="${safe(project.image)}" alt="${safe(project.alt)}" class="project-image" loading="lazy">
             </div>
             <div class="project-body">
+                <span class="project-eyebrow eyebrow-${categoryId}">// ${safe(categoryLabel).toLowerCase()}</span>
                 <h3>${safe(project.title)}</h3>
                 <p>${safe(project.description)}</p>
-                <div class="project-tech-list">
-                    ${techs.map(t => `<span>${safe(t)}</span>`).join("")}
-                </div>
+            </div>
+            <div class="project-stack" aria-label="Built with">
+                ${CODE_ICON}
+                <span>${techs.map(safe).join(" · ")}</span>
+            </div>
+            <div class="project-footer">
+                <span>View source</span>
+                ${ARROW_ICON}
             </div>
         </div>`;
     }
