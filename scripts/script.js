@@ -45,6 +45,17 @@ window.PROJECT_CATEGORIES = [
 // is sorted by "order" automatically so this array does not need to stay sorted.
 window.PROJECTS_DATA = [
     {
+        title: "Stepz Store App",
+        description: "Flutter e-commerce app for a Shoe store.",
+        image: "static/project-images/stepz-store-app.jpg",
+        alt: "Stepz Store Flutter e-commerce app screenshot",
+        link: "https://github.com/ShehanSulakshana/Stepz-Store",
+        category: "development",
+        status: "Ongoing",
+        techs: ["Flutter", "Dart", "Firebase", "State Management"],
+        order: 1
+    },
+    {
         title: "TrueNote App",
         description: "Flutter note-taking app with cloud synchronization capabilities.",
         image: "static/project-images/truenote-app.jpg",
@@ -52,9 +63,8 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/TrueNote",
         category: "development",
         status: "Ongoing",
-        fileLabel: "truenote.dart",
         techs: ["Flutter", "Dart", "Firebase", "State Management"],
-        order: 1
+        order: 2
     },
     {
         title: "CineEcho App",
@@ -64,9 +74,8 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/CineEcho",
         category: "development",
         status: "Active",
-        fileLabel: "cineecho.dart",
         techs: ["Flutter", "Dart", "TMDB API", "State Management"],
-        order: 2
+        order: 3
     },
     {
         title: "Port Scanner",
@@ -76,9 +85,8 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/PortScanner",
         category: "security",
         status: "Active",
-        fileLabel: "port_scanner.py",
         techs: ["Python", "Sockets", "Networking", "Reconnaissance"],
-        order: 3
+        order: 4
     },
     {
         title: "IP Lookup",
@@ -88,9 +96,19 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/IP-Checkout",
         category: "security",
         status: "Active",
-        fileLabel: "ip_lookup.py",
         techs: ["Python", "APIs", "IP Analysis", "DNS Checks"],
-        order: 4
+        order: 5
+    },
+    {
+        title: "Snapsage Photography",
+        description: "Photography studio website with responsive design",
+        image: "https://github.com/ShehanSulakshana/Snapsage-Photography/blob/main/img/screenshot.png?raw=true",
+        alt: "Snapsage Photography website screenshot showing a gallery of professional photographs",
+        link: "https://github.com/ShehanSulakshana/Snapsage-Photography",
+        category: "development",
+        status: "Active",
+        techs: ["HTML", "CSS", "JavaScript" ,"Responsive Design"],
+        order: 6
     },
     {
         title: "Weather App",
@@ -100,9 +118,8 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/WeatherApp",
         category: "development",
         status: "Active",
-        fileLabel: "weather_app.dart",
         techs: ["Flutter", "Dart", "OpenWeather API", "UI Design"],
-        order: 5
+        order: 7
     },
     {
         title: "Student System",
@@ -112,9 +129,8 @@ window.PROJECTS_DATA = [
         link: "https://github.com/ShehanSulakshana/StudentManagementSystem",
         category: "development",
         status: "Active",
-        fileLabel: "StudentSystem.java",
         techs: ["Java", "MySQL", "CRUD", "OOP"],
-        order: 6
+        order: 8
     }
 ];
 
