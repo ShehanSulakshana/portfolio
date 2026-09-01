@@ -626,6 +626,14 @@ typeWriter();
             image: 'static/certs/cybersecurity-intro.png',
             tags: ['Cybersecurity', 'CIA Triad', 'Networking Security'],
             verifyUrl: 'https://www.credly.com/badges/ec03e1af-01c9-4aa4-858a-e5538fd12ed7/public_url'
+        },
+        {
+            id: 5,
+            title: "Python Essentials 1",
+            issuer: 'Cisco Networking Academy',
+            image: 'static/certs/python_essentials_1.png',
+            tags: ['Python', 'Programming', 'Fundamentals'],
+            verifyUrl: 'https://www.credly.com/badges/f00e223b-cc9e-4084-bf5a-9e60ff0f556a/public_url'
         }
     ];
 
@@ -841,6 +849,14 @@ window.BADGES_DATA = [
     skills: "Cybersecurity Fundamentals, Threat Analysis",
     link: "https://www.credly.com/badges/ec03e1af-01c9-4aa4-858a-e5538fd12ed7/public_url",
     img: "static/badges/cybersecurity-basics.png"
+  },
+  {
+    title: "Python Essentials 1",
+    issuer: "Cisco Networking Academy",
+    date: "Issued Jan 2026",
+    skills: "Python, Programming, Fundamentals",
+    link: "https://www.credly.com/badges/f00e223b-cc9e-4084-bf5a-9e60ff0f556a/public_url",
+    img: "static/badges/python-essentials1.png"
   },
   {
     title: "Build Apps with Flutter",
