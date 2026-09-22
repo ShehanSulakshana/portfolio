@@ -77,6 +77,17 @@ window.PROJECTS_DATA = [
         techs: ["Flutter", "Dart", "TMDB API", "State Management"],
         order: 3
     },
+        {
+        title: "Cipher-X",
+        description: "Python-based toolkit for exploring classical ciphers, AES, and RSA, with a focus on practical cybersecurity learning and experimentation.",
+        image: "static/project-images/cipher-x.png",
+        alt: "Terminal output of a Python-based Cryptography Encrypt/Decrypt tool",
+        link: "https://github.com/ShehanSulakshana/Cipher-X",
+        category: "security",
+        status: "Active",
+        techs: ["Python", "Cryptography", "Algorithms"],
+        order: 4
+    },
     {
         title: "Port Scanner",
         description: "Python tool for network reconnaissance",
@@ -86,7 +97,7 @@ window.PROJECTS_DATA = [
         category: "security",
         status: "Active",
         techs: ["Python", "Sockets", "Networking", "Reconnaissance"],
-        order: 4
+        order: 5
     },
     {
         title: "IP Lookup",
@@ -97,7 +108,7 @@ window.PROJECTS_DATA = [
         category: "security",
         status: "Active",
         techs: ["Python", "APIs", "IP Analysis", "DNS Checks"],
-        order: 5
+        order: 6
     },
     {
         title: "Snapsage Photography",
@@ -108,7 +119,7 @@ window.PROJECTS_DATA = [
         category: "development",
         status: "Active",
         techs: ["HTML", "CSS", "JavaScript" ,"Responsive Design"],
-        order: 6
+        order: 7
     },
     {
         title: "Weather App",
@@ -119,7 +130,7 @@ window.PROJECTS_DATA = [
         category: "development",
         status: "Active",
         techs: ["Flutter", "Dart", "OpenWeather API", "UI Design"],
-        order: 7
+        order: 8
     },
     {
         title: "Student System",
@@ -130,7 +141,7 @@ window.PROJECTS_DATA = [
         category: "development",
         status: "Active",
         techs: ["Java", "MySQL", "CRUD", "OOP"],
-        order: 8
+        order: 9
     }
 ];
 
