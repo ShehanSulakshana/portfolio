@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Visitor Starfield Canvas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000000;
+      color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Solid Black Space Canvas */
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      cursor: crosshair;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Top Floating Header & Tool Controls */
+    .hud-header {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 680px;
+      z-index: 20;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(45, 212, 191, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hud-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hud-title-group h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-title-group p {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .back-link {
+      font-size: 12px;
+      color: #2dd4bf;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      background: rgba(45, 212, 191, 0.08);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .back-link:hover {
+      background: rgba(45, 212, 191, 0.2);
+      border-color: #2dd4bf;
+    }
+
+    /* Star Config Controls */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      flex: 1 1 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .input-label {
+      font-size: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9ca3af;
+    }
+
+    #star-name-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    #star-name-input:focus {
+      border-color: #2dd4bf;
+      box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2);
+    }
+
+    #star-name-input::placeholder {
+      color: #6b7280;
+    }
+
+    /* Aura / Color Palette */
+    .palette-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .palette-options {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .palette-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      background: none;
+      padding: 0;
+    }
+
+    .palette-btn::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      border-radius: 50%;
+      background-color: var(--color);
+      box-shadow: 0 0 8px var(--color);
+    }
+
+    .palette-btn.active {
+      transform: scale(1.15);
+      border-color: #ffffff;
+      box-shadow: 0 0 12px var(--color);
+    }
+
+    /* Mark Planted Button */
+    #plant-btn {
+      flex: 0 0 auto;
+      align-self: flex-end;
+      padding: 8px 18px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: #2dd4bf;
+      color: #042f2e;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(45, 212, 191, 0.35);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    #plant-btn:hover {
+      background: #5eead4;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(45, 212, 191, 0.5);
+    }
+
+    #plant-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Bottom Counter Bar */
+    .hud-footer {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 30px;
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+    }
+
+    .counter-display {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .counter-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .status-hint {
+      font-size: 11px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulsing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2dd4bf;
+      animation: pulse-ring 2s infinite ease-out;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    /* Interactive Instruction Pill on Canvas */
+    #instruction-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(10, 10, 15, 0.7);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 20px;
+      color: #9ca3af;
+      font-size: 13px;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      text-align: center;
+      z-index: 10;
+    }
+
+    #instruction-hint.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    @media (max-width: 640px) {
+      .hud-header {
+        top: 10px;
+        width: calc(100% - 20px);
+        padding: 12px;
+        gap: 10px;
+      }
+      .controls-row {
+        gap: 8px;
+      }
+      #plant-btn {
+        width: 100%;
+        margin-top: 4px;
+      }
+      .hud-footer {
+        bottom: 12px;
+        width: calc(100% - 24px);
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Solid Black Canvas Container -->
+  <div id="canvas-container">
+    <canvas id="starfield-canvas"></canvas>
+  </div>
+
+  <!-- Instruction Overlay for First Time Click -->
+  <div id="instruction-hint">
+    ✨ Click anywhere in outer space to place your star
+  </div>
+
+  <!-- Top Floating HUD Controls -->
+  <header class="hud-header">
+    <div class="hud-title-row">
+      <div class="hud-title-group">
+        <h1>
+          <span>Visitor Starfield Canvas</span>
+        </h1>
+        <p>Plant your glowing star in the session cosmos.</p>
+      </div>
+      <a href="/" class="back-link">← Portfolio</a>
+    </div>
+
+    <div class="controls-row">
+      <!-- Star Name Input -->
+      <div class="input-group">
+        <label for="star-name-input" class="input-label">Star Name / Callout</label>
+        <input
+          type="text"
+          id="star-name-input"
+          placeholder="Anonymous"
+          maxlength="24"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Aura Color Palette -->
+      <div class="palette-group">
+        <span class="input-label">Aura Color</span>
+        <div class="palette-options" id="palette-options">
+          <!-- Dynamically populated / styled palette buttons -->
+        </div>
+      </div>
+
+      <!-- Mark Planted Action Button -->
+      <button type="button" id="plant-btn">
+        <span>Mark Planted</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Bottom Counter Bar -->
+  <footer class="hud-footer">
+    <div class="counter-display">
+      <span>Stars Planted:</span>
+      <span class="counter-badge" id="star-count">0</span>
+    </div>
+    <div class="status-hint">
+      <span class="pulsing-dot"></span>
+      <span id="click-status">Click canvas to position</span>
+    </div>
+  </footer>
+
+  <!-- Vanilla JavaScript Implementation Only -->
+  <script>
+    (function () {
+      // Configuration & Color Palette
+      const COLOR_PALETTE = [
+        { id: 'cyan', hex: '#38bdf8', glow: 'rgba(56, 189, 248, 0.85)', name: 'Cyan' },
+        { id: 'teal', hex: '#2dd4bf', glow: 'rgba(45, 212, 191, 0.85)', name: 'Teal' },
+        { id: 'gold', hex: '#fbbf24', glow: 'rgba(251, 191, 36, 0.85)', name: 'Gold' },
+        { id: 'violet', hex: '#c084fc', glow: 'rgba(192, 132, 252, 0.85)', name: 'Violet' },
+        { id: 'rose', hex: '#fb7185', glow: 'rgba(251, 113, 133, 0.85)', name: 'Rose' },
+        { id: 'white', hex: '#ffffff', glow: 'rgba(255, 255, 255, 0.95)', name: 'White' }
+      ];
+
+      // In-Memory Session Storage
+      let stars = [];
+      let pendingStar = null;
+      let selectedColor = COLOR_PALETTE[1]; // Default Teal
+      let backgroundMicroStars = [];
+
+      // DOM Elements
+      const canvas = document.getElementById('starfield-canvas');
+      const ctx = canvas.getContext('2d');
+      const nameInput = document.getElementById('star-name-input');
+      const plantBtn = document.getElementById('plant-btn');
+      const countEl = document.getElementById('star-count');
+      const clickStatus = document.getElementById('click-status');
+      const instructionHint = document.getElementById('instruction-hint');
+      const paletteContainer = document.getElementById('palette-options');
+
+      // Initialize Palette Buttons
+      COLOR_PALETTE.forEach((color, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'palette-btn' + (index === 1 ? ' active' : '');
+        btn.style.setProperty('--color', color.hex);
+        btn.setAttribute('aria-label', color.name + ' Aura');
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedColor = color;
+        });
+        paletteContainer.appendChild(btn);
+      });
+
+      // Resize Canvas with high-DPI resolution
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+
+        // Generate subtle ambient micro-stars for depth
+        backgroundMicroStars = [];
+        const count = Math.min(180, Math.floor((width * height) / 8000));
+        for (let i = 0; i < count; i++) {
+          backgroundMicroStars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 0.9 + 0.3,
+            alpha: Math.random() * 0.6 + 0.2,
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Canvas Click & Touch Handling
+      function handleCanvasPoint(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        // Check if inside canvas bounds
+        if (x < 0 || x > width || y < 0 || y > height) return;
+
+        pendingStar = {
+          x: x,
+          y: y,
+          createdAt: Date.now()
+        };
+
+        if (instructionHint) {
+          instructionHint.classList.add('hidden');
+        }
+
+        clickStatus.textContent = 'Position selected! Click "Mark Planted"';
+        clickStatus.style.color = selectedColor.hex;
+      }
+
+      canvas.addEventListener('click', (e) => {
+        handleCanvasPoint(e.clientX, e.clientY);
+      });
+
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          const touch = e.touches[0];
+          handleCanvasPoint(touch.clientX, touch.clientY);
+        }
+      }, { passive: true });
+
+      // "Mark Planted" Action Handler
+      plantBtn.addEventListener('click', () => {
+        // If user hasn't clicked canvas yet, provide default coordinates in view
+        if (!pendingStar) {
+          const padding = 100;
+          pendingStar = {
+            x: padding + Math.random() * (width - padding * 2),
+            y: padding + 80 + Math.random() * (height - padding * 2 - 120),
+            createdAt: Date.now()
+          };
+        }
+
+        const rawName = nameInput.value.trim();
+        const finalName = rawName.length > 0 ? rawName : 'Anonymous';
+
+        const newStar = {
+          id: Date.now() + Math.random(),
+          x: pendingStar.x,
+          y: pendingStar.y,
+          name: finalName,
+          color: selectedColor.hex,
+          glow: selectedColor.glow,
+          radius: Math.random() * 1.5 + 3.2,
+          pulseSpeed: Math.random() * 0.03 + 0.015,
+          phase: Math.random() * Math.PI * 2,
+          plantedAt: Date.now(),
+          ringProgress: 0
+        };
+
+        stars.push(newStar);
+        pendingStar = null;
+
+        // Update counter & status
+        countEl.textContent = stars.length;
+        clickStatus.textContent = 'Star planted! Click space to add another';
+        clickStatus.style.color = '#2dd4bf';
+
+        // Clear input or reset placeholder
+        nameInput.value = '';
+
+        if (instructionHint) {
+          instructionHint.classList.add('hidden');
+        }
+      });
+
+      // Animation Render Loop
+      let time = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.03;
+
+        // Solid Black outer-space background
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, width, height);
+
+        // 1. Ambient background distant micro-stars
+        ctx.save();
+        backgroundMicroStars.forEach(s => {
+          s.phase += s.twinkleSpeed;
+          const a = s.alpha * (0.6 + 0.4 * Math.sin(s.phase));
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + a + ')';
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+
+        // 2. Render all planted stars with glowing effects
+        stars.forEach(star => {
+          star.phase += star.pulseSpeed;
+          const pulse = Math.sin(star.phase) * 0.35 + 0.95;
+          const currentRadius = star.radius * pulse;
+
+          // Star Aura (Outer Glow)
+          ctx.save();
+          ctx.shadowColor = star.color;
+          ctx.shadowBlur = 18 * pulse;
+
+          // Radial Gradient Aura
+          const grad = ctx.createRadialGradient(
+            star.x, star.y, 0,
+            star.x, star.y, currentRadius * 3.8
+          );
+          grad.addColorStop(0, star.color);
+          grad.addColorStop(0.35, star.glow);
+          grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, currentRadius * 3.8, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Star Bright Core
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, currentRadius * 0.7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          // Subtle ripple on newly planted star
+          const age = Date.now() - star.plantedAt;
+          if (age < 900) {
+            const rippleR = (age / 900) * 32;
+            const rippleAlpha = 1 - (age / 900);
+            ctx.save();
+            ctx.strokeStyle = star.color;
+            ctx.lineWidth = 1.5;
+            ctx.globalAlpha = rippleAlpha;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, rippleR, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          // Star Name Label
+          ctx.save();
+          ctx.font = '500 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+
+          // Label glow & text
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+          const textMetrics = ctx.measureText(star.name);
+          const bgPadding = 4;
+          const textY = star.y + currentRadius + 7;
+          ctx.fillRect(
+            star.x - textMetrics.width / 2 - bgPadding,
+            textY - 2,
+            textMetrics.width + bgPadding * 2,
+            14
+          );
+
+          ctx.fillStyle = '#f3f4f6';
+          ctx.shadowColor = star.color;
+          ctx.shadowBlur = 6;
+          ctx.fillText(star.name, star.x, textY);
+          ctx.restore();
+        });
+
+        // 3. Render Pending Star Placement Reticle (if user clicked)
+        if (pendingStar) {
+          const reticlePulse = Math.sin(time * 3) * 0.2 + 0.8;
+          const pendingColor = selectedColor.hex;
+
+          ctx.save();
+          ctx.strokeStyle = pendingColor;
+          ctx.lineWidth = 1.5;
+          ctx.shadowColor = pendingColor;
+          ctx.shadowBlur = 12;
+
+          // Pulsing target ring
+          ctx.beginPath();
+          ctx.arc(pendingStar.x, pendingStar.y, 14 * reticlePulse, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Center pending point
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(pendingStar.x, pendingStar.y, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Preview Name Label
+          const rawName = nameInput.value.trim();
+          const previewName = (rawName.length > 0 ? rawName : 'Anonymous') + ' (Pending)';
+          ctx.font = '600 11px ui-monospace, SFMono-Regular, monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+          ctx.fillStyle = pendingColor;
+          ctx.fillText(previewName, pendingStar.x, pendingStar.y + 20);
+          ctx.restore();
+        }
+      }
+
+      animate();
+    })();
+  </script>
+</body>
+</html>
