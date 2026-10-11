@@ -316,7 +316,7 @@ export const StarfieldCanvas: React.FC<StarfieldCanvasProps> = ({ isOpen, onClos
 
           <div className="flex items-center gap-2">
             <a
-              href="/starfield.html"
+              href="./starfield.html"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-mono text-zinc-400 hover:text-teal-300 px-2 py-1 rounded-lg border border-zinc-800 hover:border-teal-500/40 bg-zinc-900/60 transition-colors hidden sm:inline-flex items-center gap-1"
