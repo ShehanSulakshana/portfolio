@@ -3,9 +3,21 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
+const getBase = () => {
+  if (process.env.VITE_BASE) return process.env.VITE_BASE;
+  if (process.env.GITHUB_REPOSITORY) {
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+    if (repo && repo.toLowerCase() === `${owner.toLowerCase()}.github.io`) {
+      return '/';
+    }
+    return `/${repo}/`;
+  }
+  return './';
+};
+
 export default defineConfig(() => {
   return {
-    base: './',
+    base: getBase(),
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
