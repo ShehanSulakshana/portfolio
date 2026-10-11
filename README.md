@@ -12,7 +12,9 @@ BSc (Hons) in Information Technology · Open University of Sri Lanka (OUSL)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
+<br/>
 
+[![Coded By A.I., Guided By ME!](https://img.shields.io/badge/Coded_By_A.I.-Guided_By_ME!-blueviolet?style=for-the-badge)](https://github.com/ShehanSulakshana)
 <br/>
 
 <p align="center">
@@ -27,7 +29,7 @@ BSc (Hons) in Information Technology · Open University of Sri Lanka (OUSL)
 
 ## About Me
 
-I am an Information Technology undergraduate at the Open University of Sri Lanka (OUSL), currently maintaining a 4.0 GPA. My primary focus is building cross-platform mobile apps with Flutter and Dart, alongside studying network security, cryptography, and defensive cybersecurity concepts.
+I am an Information Technology undergraduate at the Open University of Sri Lanka (OUSL). My primary focus is building cross-platform mobile apps with Flutter and Dart, alongside studying network security, cryptography, and defensive cybersecurity concepts.
 
 This repository contains the source code for my personal portfolio website, showcasing my projects, technical focus, and contact channels.
 
