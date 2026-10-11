@@ -21,15 +21,7 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
-      },
-    },
-    build: {
-      rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'index.html'),
-          starfield: path.resolve(__dirname, 'starfield.html'),
-        },
+        '@': path.resolve('.'),
       },
     },
     server: {
