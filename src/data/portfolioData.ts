@@ -73,7 +73,7 @@ export const PROFILE_INFO = {
   web3FormsKey: "fc6dacec-aa2f-4466-9e61-1bd471892503",
   terminalLines: [
     "whoami",
-    "Mobile Developer (Flutter / Dart)",
+    "Mobile Developer (Flutter)",
     "Cybersecurity Enthusiast",
     "Open for Freelance & Internships",
   ]
@@ -102,187 +102,189 @@ export const PROJECTS_DATA: Project[] = [
   {
     id: "stepz-store",
     title: "Stepz Store App",
-    tagline: "E-Commerce Mobile Architecture",
-    description: "Flutter footwear store with BLoC state management and real-time Firestore catalog.",
+    tagline: "Footwear Shopping App",
+    description: "Flutter shoe store app with product listing and add/remove cart functions, built on local state management.",
     architectureDetails: [
-      "Structured MVC / BLoC state flow for scalable cart, checkout, and inventory lifecycles.",
-      "Cloud Firestore integration for real-time stock availability and order dispatch logging.",
-      "Custom responsive design system optimized for 60fps scrolling across iOS and Android.",
-      "Comprehensive product filtering, wishlist persistence, and secure checkout simulation."
+      "Product listing screen with a cart that supports adding and removing items.",
+      "Local, in-memory state management with no backend dependency, keeping the cart logic simple and self-contained.",
+      "Declarative navigation using go_router, with an onboarding screen as the entry point.",
+      "Flutter multi-platform project scaffold (Android, iOS, web, desktop) with a Material design base."
     ],
     image: "/static/project-images/stepz-store-app.jpg",
-    alt: "Stepz Store Flutter footwear e-commerce application interface",
+    alt: "Stepz Store Flutter shoe store app showing product listing and cart",
     link: "https://github.com/ShehanSulakshana/Stepz-Store",
     category: "development",
     categoryLabel: "Mobile Engineering",
     status: "Ongoing",
-    techs: ["Flutter", "Dart", "Firebase", "State Management", "BLoC"],
+    techs: ["Flutter", "Dart", "go_router", "State Management"],
     featured: true,
     order: 1
   },
   {
     id: "cipher-x",
     title: "Cipher-X",
-    tagline: "Cryptographic Analysis Suite",
-    description: "Python security toolkit implementing classical and modern ciphers (AES-256, RSA).",
+    tagline: "Hands-On Cryptography Toolkit",
+    description: "Python toolkit for learning cryptography by implementing classical ciphers, AES, and RSA from the ground up.",
     architectureDetails: [
-      "Modular Python engine implementing classical ciphers (Caesar, Vigenère, Substitution) alongside modern AES-256 and RSA key pair generation.",
-      "Mathematical analysis helpers for frequency calculation and ciphertext entropy breakdown.",
-      "Interactive command-line interface with secure file encryption/decryption routines.",
-      "Designed as a defensive learning testbed for cryptographic vulnerability assessment."
+      "Built to write, test, and understand core encryption, decryption, and hashing algorithms instead of relying on high-level abstractions.",
+      "Covers both symmetric (AES) and asymmetric (RSA) encryption concepts alongside classical ciphers.",
+      "Key generation, storage, and handling patterns built on the PyCA cryptography library.",
+      "Interactive command-line entry point (main.py) with a lightweight, dependency-focused design for learning and experimentation."
     ],
     image: "/static/project-images/cipher-x.png",
-    alt: "Cipher-X Python cryptographic encryption and analysis toolkit terminal",
+    alt: "Cipher-X Python cryptography toolkit banner",
     link: "https://github.com/ShehanSulakshana/Cipher-X",
     category: "security",
     categoryLabel: "Cybersecurity & Cryptography",
     status: "Active",
-    techs: ["Python", "Cryptography", "AES-256", "RSA", "Algorithms"],
+    techs: ["Python", "Cryptography", "AES", "RSA", "Classical Ciphers"],
     featured: true,
     order: 2
   },
   {
     id: "cineecho",
     title: "CineEcho App",
-    tagline: "Media Discovery & Tracking Engine",
-    description: "Flutter movie discovery app powered by TMDB API with watch-time analytics and watchlist.",
+    tagline: "Movie & TV Discovery Platform",
+    description: "Flutter movie and TV discovery app powered by the TMDB API, with trailers, watch history, favorites, and cloud-synced watch-time stats.",
     architectureDetails: [
-      "Asynchronous REST client interacting with TMDB v3 API with in-memory caching for trending feeds.",
-      "Aggregated personal watch-time computation with monthly runtime progress meters.",
-      "Adaptive dark-mode UI with fluid hero animations and YouTube trailer modal integration.",
-      "Offline-first favorites storage utilizing localized state caching."
+      "TMDB API integration over HTTP for trending, popular, and upcoming titles, detailed metadata, trailers, and cast and crew filmographies.",
+      "Provider-based state management with a layered structure: models, providers, services, screens, and reusable widgets.",
+      "Firebase Authentication with Google Sign-In, and Cloud Firestore for cloud-synced profiles, favorites, and watch history, with Hive for local storage.",
+      "Animated viewing statistics showing total watch time, movies watched, and episodes watched, plus episode-level tracking for TV series.",
+      "Search across movies, shows, and people, with Material 3 dark mode and custom Firestore security rules."
     ],
     image: "/static/project-images/cineecho-app.jpg",
-    alt: "CineEcho Flutter movie guidance application interface",
+    alt: "CineEcho Flutter movie and TV discovery app interface",
     link: "https://github.com/ShehanSulakshana/CineEcho",
     category: "development",
     categoryLabel: "Mobile Engineering",
     status: "Active",
-    techs: ["Flutter", "Dart", "TMDB API", "State Management", "Async I/O"],
+    techs: ["Flutter", "Dart", "TMDB API", "Provider", "Firebase", "Hive"],
     featured: true,
     order: 3
   },
   {
     id: "truenote",
     title: "TrueNote App",
-    tagline: "Cloud Synchronized Notebook",
-    description: "Cloud-synced Flutter note-taking app with offline caching and biometric lock.",
+    tagline: "Privacy-First Notes App",
+    description: "Cross-platform Flutter notes app focused on performance, clean design, and privacy-first note management. Currently in early development.",
     architectureDetails: [
-      "Real-time bidirectional Firebase Firestore listeners with optimistic UI updates.",
-      "Local-first SQLite / Hive fallback ensuring offline manuscript drafting and zero data loss.",
-      "Tag-based taxonomic sorting, instant full-text search, and markdown syntax rendering.",
-      "Biometric lock integration for sensitive client notes and credentials."
+      "Flutter and Dart project targeting Android, iOS, web, and Windows from a single codebase.",
+      "Provider-based state management as the foundation for the app's architecture.",
+      "Repository serves as a public development log tracking progress and code evolution while the app approaches its first stable release.",
+      "Firebase is listed as the planned backend but is not yet integrated; the code is proprietary and all rights are reserved."
     ],
     image: "/static/project-images/truenote-app.jpg",
-    alt: "TrueNote Flutter note taking and cloud sync application",
+    alt: "TrueNote Flutter privacy-first notes app",
     link: "https://github.com/ShehanSulakshana/TrueNote",
     category: "development",
     categoryLabel: "Mobile Engineering",
     status: "Ongoing",
-    techs: ["Flutter", "Dart", "Firebase Firestore", "Cloud Sync", "State Management"],
+    techs: ["Flutter", "Dart", "Provider", "State Management"],
     featured: true,
     order: 4
   },
   {
     id: "port-scanner",
     title: "Port Scanner",
-    tagline: "High-Throughput Network Reconnaissance",
-    description: "Multi-threaded Python scanner for rapid TCP port auditing and service detection.",
+    tagline: "TCP Port Scanning CLI",
+    description: "Python command-line scanner that detects open TCP ports on any IP or domain and maps them to common services.",
     architectureDetails: [
-      "Concurrent socket thread pooling delivering sub-second scan speeds across subnet targets.",
-      "Banner grabbing routine to identify daemon service versions and banner leakages.",
-      "Custom timeout optimization and non-blocking I/O routines to bypass host timeouts.",
-      "Detailed port status summary with recognized IANA service mappings and risk notations."
+      "Socket-based TCP connect scanning with a 0.5 second per-port timeout, run sequentially across the chosen port range.",
+      "Accepts raw IP addresses or domain names, resolves hostnames, and validates the start and end port range (1-65535).",
+      "Maps open ports to standard service names (HTTP, SSH, FTP, HTTPS) and prints colour-coded live results with total scan time.",
+      "Optional export of open ports and services to a text file, with the output path set in config.yaml."
     ],
     image: "/static/project-images/port-scanner.png",
-    alt: "Port Scanner multi-threaded Python socket reconnaissance tool terminal",
+    alt: "Port Scanner Python TCP scanning tool terminal output",
     link: "https://github.com/ShehanSulakshana/PortScanner",
     category: "security",
     categoryLabel: "Cybersecurity & Recon",
     status: "Active",
-    techs: ["Python", "Sockets", "Networking (TCP/IP)", "Concurrency", "Reconnaissance"],
+    techs: ["Python", "Sockets", "Networking (TCP/IP)", "CLI", "Reconnaissance"],
     featured: false,
     order: 5
   },
   {
     id: "ip-lookup",
-    title: "IP Lookup",
-    tagline: "Geographic & DNS Intelligence",
-    description: "Python script for IP geolocation mapping, ISP lookup, and DNS records verification.",
+    title: "IP Checkout",
+    tagline: "OSINT IP & Domain Lookup",
+    description: "Python OSINT script that fetches geolocation and ISP data for any public IP address and resolves web domains to their IP.",
     architectureDetails: [
-      "Multi-source API querying to cross-reference Autonomous System Numbers (ASN) and geographic coordinates.",
-      "DNS forward and reverse resolution to spot spoofed endpoints and misconfigured mail exchangers.",
-      "Command-line formatting with structured JSON export for downstream security analysis pipelines.",
-      "Rate-limit handling with robust fallback across alternative lookup endpoints."
+      "Queries the ip-api.com JSON API for country, region, city, zip code, timezone, ISP, organization, and coordinates.",
+      "Domain-to-IP resolution through Python's socket library for any website address.",
+      "Interactive menu offering two modes: public IP checkout and web IP checkout, with a restart option after each lookup.",
+      "Colour-coded terminal output using colorama and a pyfiglet banner, with a helper script that installs dependencies."
     ],
     image: "/static/project-images/ip-checkout.png",
-    alt: "IP Lookup reconnaissance and DNS inspection tool interface",
+    alt: "IP Checkout Python OSINT tool terminal output",
     link: "https://github.com/ShehanSulakshana/IP-Checkout",
     category: "security",
     categoryLabel: "Cybersecurity & Recon",
     status: "Active",
-    techs: ["Python", "REST APIs", "DNS Checks", "IP Analysis", "Network Security"],
+    techs: ["Python", "REST APIs", "Sockets", "OSINT", "IP Analysis"],
     featured: false,
     order: 6
   },
   {
     id: "weather-app",
     title: "Weather App",
-    tagline: "Real-Time Meteorological Client",
-    description: "Flutter weather client with real-time forecasts and dynamic graphics via OpenWeather API.",
+    tagline: "Current Weather Client",
+    description: "First Flutter app: fetches current weather and a 5-hour forecast for a user-specified location using the OpenWeather API.",
     architectureDetails: [
-      "Geolocation-driven meteorological queries delivering hourly forecasts and 7-day outlooks.",
-      "Custom vector UI reacting dynamically to live atmospheric conditions (rain, clear, thunderstorm).",
-      "Robust error handling for intermittent connectivity and invalid city input queries."
+      "HTTP requests to the free OpenWeather API for real-time weather data by location.",
+      "Displays temperature, city name, and weather condition description, plus a 5-hour forecast.",
+      "Clean, simple UI built with core Flutter widgets as a practice project."
     ],
     image: "/static/project-images/weather-app.svg",
-    alt: "Weather App Flutter mobile forecast client interface",
+    alt: "Weather App Flutter current weather and forecast interface",
     link: "https://github.com/ShehanSulakshana/WeatherApp",
     category: "development",
     categoryLabel: "Mobile Engineering",
     status: "Active",
-    techs: ["Flutter", "Dart", "OpenWeather API", "UI Design", "Geo Location"],
+    techs: ["Flutter", "Dart", "OpenWeather API", "HTTP", "UI Design"],
     featured: false,
     order: 7
   },
   {
     id: "student-system",
     title: "Student Management System",
-    tagline: "Enterprise Academic Records DB",
-    description: "Java desktop app with MySQL managing course registration, grades, and GPA records.",
+    tagline: "Console-Based Student Records CRUD",
+    description: "Java console application connected to MySQL via JDBC for adding, viewing, updating, searching, and deleting student records.",
     architectureDetails: [
-      "Object-Oriented Programming (OOP) architecture with clean separation between Model, View, and Controller layers.",
-      "JDBC database connector utilizing parameterized queries to eliminate SQL injection vulnerabilities.",
-      "Automated GPA calculation algorithms matching university grading rubric standards.",
-      "Role-based access control simulation distinguishing faculty inputs from student report viewers."
+      "Full CRUD operations on a Students table (ID, name, date of birth, email, phone) through JDBC and the MySQL connector.",
+      "Input validation for email format, date format, and phone number before records are saved.",
+      "Menu-driven terminal interface with colored console output for readability.",
+      "Search and delete by student ID, with database setup SQL and configuration steps documented in the README."
     ],
     image: "/static/project-images/student-system.svg",
-    alt: "Student Management System Java and MySQL application architecture diagram",
+    alt: "Student Management System Java console app with MySQL database",
     link: "https://github.com/ShehanSulakshana/StudentManagementSystem",
     category: "systems",
     categoryLabel: "Software Engineering & Databases",
     status: "Active",
-    techs: ["Java", "MySQL", "JDBC", "CRUD", "OOP", "Relational DB"],
+    techs: ["Java", "MySQL", "JDBC", "CRUD", "Console UI"],
     featured: false,
     order: 8
   },
   {
     id: "snapsage",
     title: "Snapsage Photography",
-    tagline: "Commercial Studio Showcase",
-    description: "Responsive photography studio showcase with dynamic image galleries and client inquiries.",
+    tagline: "Photography Portfolio Website",
+    description: "Responsive photography portfolio built with HTML, CSS, and JavaScript, featuring a dynamic gallery and hosted live on Netlify.",
     architectureDetails: [
-      "Fluid masonry layout engineered with modern CSS Grid and Flexbox for responsive cross-device viewing.",
-      "Zero-dependency vanilla JavaScript lightbox viewer optimized for rapid thumbnail hydration.",
-      "Semantic HTML5 structure achieving 95+ Lighthouse accessibility and performance ratings."
+      "Responsive layout optimized for desktop, tablet, and mobile using semantic HTML5 and CSS3 with variables, animations, and media queries.",
+      "Interactive gallery section with hover effects and modal previews for high-resolution images.",
+      "Dedicated sections for photography services, client testimonials, and contact details with social links.",
+      "Vanilla JavaScript for scroll-triggered animations and interactive elements, deployed on Netlify."
     ],
     image: "https://github.com/ShehanSulakshana/Snapsage-Photography/blob/main/img/screenshot.png?raw=true",
-    alt: "Snapsage Photography studio website layout showcase",
+    alt: "Snapsage Photography portfolio website homepage",
     link: "https://github.com/ShehanSulakshana/Snapsage-Photography",
     category: "systems",
     categoryLabel: "Web Development",
     status: "Active",
-    techs: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "UI/UX"],
+    techs: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Netlify"],
     featured: false,
     order: 9
   }
@@ -423,40 +425,40 @@ export const BADGES_DATA: Badge[] = [
 
 export const TIMELINE_DATA: TimelineMilestone[] = [
   {
+    date: "2024",
+    title: "The Beginning of the Journey",
+    institution: "Where It All Started",
+    description: "Where my curiosity about the IT industry and software development began, sparking the drive that shaped my path into cybersecurity and app development."
+  },
+  {
     date: "Jan 2025",
-    title: "Computer Systems & Programming Logic",
-    institution: "Foundational Computing",
-    description: "Started learning programming logic and core computer architecture using Python—covering memory hierarchy, basic data structures, and algorithmic problem decomposition."
+    title: "BSc in Information Technology Begins",
+    institution: "Open University of Sri Lanka",
+    description: "Began my BSc in IT at the Open University of Sri Lanka, building the academic foundation for a career in cybersecurity and software development."
   },
   {
-    date: "Apr 2025",
-    title: "Web Architecture & Frontend Mechanics",
-    institution: "Web Technologies",
-    description: "Started learning how the browser renders interfaces, studying semantic HTML5, CSS layout mechanics (Flexbox & Grid), and asynchronous JavaScript for dynamic interactions."
-  },
-  {
-    date: "Jul 2025",
-    title: "Cross-Platform Mobile Engineering",
+    date: "Aug 2025",
+    title: "Flutter Development Begins",
     institution: "Mobile Development",
-    description: "Started learning mobile engineering with Dart and Flutter—focusing on reactive widget trees, state management architectures, and integrating RESTful endpoints."
+    description: "Started building cross-platform apps with Flutter and Dart, developing hands-on projects in parallel with my cybersecurity coursework."
   },
   {
-    date: "Oct 2025",
-    title: "Computer Networking & Protocol Suites",
-    institution: "Networking Fundamentals",
-    description: "Started learning the TCP/IP stack and OSI reference model in depth—analyzing packet flow, socket communication, IP subnetting, and DNS resolution."
+    date: "Nov 2025",
+    title: "Security Fundamentals",
+    institution: "Cybersecurity & Networking",
+    description: "Built core security skills through networking basics, Linux command-line workflows, and packet-level traffic analysis with Wireshark."
   },
   {
-    date: "Dec 2025",
-    title: "Linux Environments & Shell Automation",
-    institution: "Systems & Scripting",
-    description: "Started learning Unix-like operating systems, mastering POSIX terminal workflows, user access controls, process signals, and automation through Bash scripts."
+    date: "Jan 2026",
+    title: "Portfolio Launch",
+    institution: "Personal Project",
+    description: "Designed and launched this portfolio to showcase my cybersecurity and development journey, projects, and certifications in one place."
   },
   {
     date: "Feb 2026",
-    title: "Applied Cryptography & Defensive Concepts",
-    institution: "Cybersecurity & Defense",
-    description: "Started learning practical security fundamentals—exploring symmetric (AES) and asymmetric (RSA) encryption, secure hashing, and defensive coding principles.",
+    title: "Dean's List Award",
+    institution: "Open University of Sri Lanka",
+    description: "Selected for the Dean's List for Year 1, Semester 2, with a perfect 4.0 GPA.",
     highlight: true
   }
 ];
