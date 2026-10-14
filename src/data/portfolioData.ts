@@ -60,7 +60,7 @@ export const PROFILE_INFO = {
   headline: "Mobile Developer & Cybersecurity Enthusiast",
   degree: "BSc (Hons) in Information Technology",
   institution: "Open University of Sri Lanka (OUSL)",
-  academicStanding: "BSc IT Undergraduate · 4.0 Current GPA",
+  academicStanding: "BSc IT Undergraduate",
   location: "Sri Lanka",
   profilePhoto: "https://avatars.githubusercontent.com/u/163650030?v=4",
   livePortfolio: "https://shehan-sulakshana.is-a.dev/",
@@ -458,7 +458,7 @@ export const TIMELINE_DATA: TimelineMilestone[] = [
     date: "Feb 2026",
     title: "Dean's List Award",
     institution: "Open University of Sri Lanka",
-    description: "Selected for the Dean's List for Year 1, Semester 2, with a perfect 4.0 GPA.",
+    description: "Honored on the Dean's List for Year 1, Semester 2 for academic excellence.",
     highlight: true
   }
 ];
