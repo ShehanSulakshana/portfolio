@@ -181,7 +181,7 @@ export const About: React.FC = () => {
         </defs>
       </svg>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="mt-8 mb-10 max-w-6xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 items-center mb-8">
           {/* Left: Animated, interactive portrait bubble */}
           <motion.div
