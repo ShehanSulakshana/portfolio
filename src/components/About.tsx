@@ -13,7 +13,6 @@ import {
 import { ArrowRight } from 'lucide-react';
 import { SiFlutter, SiDart, SiPython, SiFirebase, SiLinux, SiGit, SiWireshark } from 'react-icons/si';
 import { PROFILE_INFO } from '../data/portfolioData';
-// Tip: use the transparent PNG cutout for the best head pop-out effect
 import profileImage from '../assets/images/regenerated_image_1791991636550.jpg';
 
 const BUBBLE_COLOR = '#119F78';
@@ -170,7 +169,7 @@ export const About: React.FC = () => {
       whileInView="visible"
       viewport={{ once: true, margin: '-40px 0px', amount: 0.12 }}
       variants={containerVariants}
-      className="py-10 md:py-14 lg:py-10 relative overflow-hidden"
+      className="py-16 md:py-24 relative overflow-hidden"
     >
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <defs>
@@ -181,7 +180,7 @@ export const About: React.FC = () => {
         </defs>
       </svg>
 
-      <div className="mt-8 mb-10 max-w-6xl mx-auto px-5 sm:px-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 items-center mb-8">
           {/* Left: Animated, interactive portrait bubble */}
           <motion.div
@@ -227,24 +226,6 @@ export const About: React.FC = () => {
                   </div>
                 </motion.div>
               </motion.div>
-
-              {/* Chip overlapping the portrait (wrapper handles centering so framer's transform doesn't clash) */}
-              <div className="absolute inset-x-0 bottom-[7%] z-30 flex justify-center pointer-events-none">
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.25, duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-zinc-950 text-xs font-semibold whitespace-nowrap border-2"
-                  style={{ borderColor: BUBBLE_COLOR }}
-                >
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: BUBBLE_COLOR }}
-                  />
-                  Mobile App Developer
-                </motion.div>
-              </div>
             </div>
           </motion.div>
 
