@@ -13,7 +13,7 @@ import {
 import { ArrowRight, Mail } from 'lucide-react';
 import { FaGithub, FaLinkedinIn, FaWhatsapp, FaFacebookF } from 'react-icons/fa6';
 import { PROFILE_INFO } from '../data/portfolioData';
-import profileImage from '../assets/images/regenerated_image_1791991636550.jpg';
+import profileImage from '../assets/images/regenerated_image_1791991636550.webp';
 
 const BUBBLE_COLOR = '#119F78';
 
