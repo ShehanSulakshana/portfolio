@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { PROFILE_INFO } from '../data/portfolioData';
 import { HeroOrbitVisual } from './HeroOrbitVisual';
 
 interface HeroProps {
@@ -16,18 +15,6 @@ const containerVariants: Variants = {
     transition: {
       staggerChildren: 0.1,
       delayChildren: 0.08,
-    },
-  },
-};
-
-const kickerVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1],
     },
   },
 };
@@ -81,103 +68,77 @@ const ctaVariants: Variants = {
 };
 
 export const Hero: React.FC<HeroProps> = () => {
-  const lines = PROFILE_INFO.terminalLines;
-
-  const [currentLine, setCurrentLine] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const text = lines[currentLine];
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (charIndex <= text.length) {
-          setCharIndex((prev) => prev + 1);
-        } else {
-          setTimeout(() => setIsDeleting(true), 1400);
-        }
-      } else {
-        if (charIndex > 0) {
-          setCharIndex((prev) => prev - 1);
-        } else {
-          setIsDeleting(false);
-          setCurrentLine((prev) => (prev + 1) % lines.length);
-        }
-      }
-    }, isDeleting ? 30 : 65);
-
-    return () => clearTimeout(timeout);
-  }, [charIndex, isDeleting, currentLine, lines]);
-
   return (
     <motion.section
       id="home"
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20 overflow-hidden"
+      className="relative pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-20 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-12 xl:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-3 sm:gap-4 lg:gap-x-12 lg:gap-y-0 xl:gap-x-16">
           
-          {/* Left Column: Heading, Terminal, Career Trajectory, CTAs */}
+          {/* Section 1 (Top Priority): Headline */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex-1 text-center lg:text-left w-full max-w-2xl mx-auto lg:mx-0"
+            className="lg:col-span-7 lg:row-start-1 text-center lg:text-left w-full max-w-2xl mx-auto lg:mx-0"
           >
-            
-            {/* Career Path Kicker without overemphasis */}
-            <motion.div
-              variants={kickerVariants}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono text-zinc-400 mb-3 sm:mb-4"
-            >
-              <span className="text-teal-400 font-semibold">Mobile Developer</span>
-              <span aria-hidden="true">·</span>
-              <span className="text-zinc-300">Cybersecurity Enthusiast</span>
-              <span aria-hidden="true">·</span>
-              <span className="text-zinc-400">OUSL IT Undergraduate</span>
-            </motion.div>
-
-            {/* Display Headline with balanced wrap and polished typography */}
+            {/* Display Headline: Greeting and Name split into separate prominent lines */}
             <motion.h1
               variants={headlineVariants}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white mb-4 sm:mb-6 [text-wrap:balance] leading-[1.14]"
+              className="text-white mb-1.5 sm:mb-2 lg:mb-5"
             >
-              Hey, I'm <span className="bg-gradient-to-r from-teal-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">Shehan Sulakshana</span>
+              <span className="block text-xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold text-zinc-300 tracking-tight leading-tight mb-1 sm:mb-1.5">
+                Hey, I'm
+              </span>
+              <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[5.5rem] font-extrabold tracking-tight bg-gradient-to-r from-teal-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent leading-[1.05] [text-wrap:balance]">
+                Shehan Sulakshana
+              </span>
             </motion.h1>
+          </motion.div>
 
-            {/* Interactive Terminal Cycler */}
+          {/* Section 2: Orbiting Tech Stack & Avatar Showcase (In Middle on Responsive Screens) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:row-span-2 w-full flex flex-col items-center justify-center shrink-0 my-0"
+          >
+            <HeroOrbitVisual />
+          </motion.div>
+
+          {/* Section 3: Rest of Text Side (Slogan, Editorial Bio, Action CTAs) */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="lg:col-span-7 lg:row-start-2 text-center lg:text-left w-full max-w-2xl mx-auto lg:mx-0 mt-1 sm:mt-2 lg:mt-0"
+          >
+            {/* Dynamic Slogan: "Code. Secure. Deploy." with high-end UI/UX */}
             <motion.div
               variants={terminalVariants}
-              className="w-full max-w-full sm:max-w-lg mx-auto lg:mx-0 bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden mb-5 sm:mb-6 text-left shadow-2xl"
+              className="flex items-center justify-center lg:justify-start mb-3 sm:mb-4"
             >
-              <div className="flex items-center justify-between px-3 sm:px-3.5 py-1.5 sm:py-2 bg-zinc-900 border-b border-zinc-800 text-[10px] sm:text-[11px] font-mono text-zinc-500">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                  <span className="ml-1.5 sm:ml-2 text-zinc-400 truncate">shehanss@terminal:~</span>
-                </div>
-                <span className="text-zinc-600 hidden sm:inline">bash</span>
-              </div>
-              <div className="px-3 sm:px-4 py-2.5 sm:py-3 font-mono text-xs sm:text-sm flex items-center min-h-[40px] sm:min-h-[44px]">
-                <span className="text-teal-400 mr-2 select-none">$</span>
-                <span className="text-zinc-100 font-medium truncate">
-                  {lines[currentLine].substring(0, charIndex)}
-                </span>
-                <span className="w-2 h-4 bg-teal-400 animate-pulse ml-0.5 shrink-0" />
+              {/* Code-comment slogan: // Code. Secure. Deploy. */}
+              <div className="font-mono text-xs sm:text-sm tracking-wide select-none">
+                <span className="text-zinc-500 mr-2 font-normal">//</span>
+                <span className="text-zinc-400 font-medium">Code. Secure. Deploy.</span>
               </div>
             </motion.div>
 
-            {/* Editorial Bio */}
+            {/* Minimalist, clear bio conveying core skills at first glance */}
             <motion.p
               variants={bioVariants}
-              className="text-xs sm:text-sm md:text-base text-zinc-300 sm:text-zinc-400 leading-relaxed max-w-xl mb-6 sm:mb-8 mx-auto lg:mx-0"
+              className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-lg mb-6 sm:mb-7 mx-auto lg:mx-0"
             >
-              Building cross-platform mobile apps with Flutter &amp; Firebase, and exploring cybersecurity &amp; networking. Open to freelance projects and internships.
+              Mobile developer building clean, secure apps with{' '}
+              <span className="text-zinc-100 font-medium">Flutter</span> &amp;{' '}
+              <span className="text-zinc-100 font-medium">Firebase</span>, with a strong focus on{' '}
+              <span className="text-teal-300 font-medium">cybersecurity</span>.
             </motion.p>
 
             {/* Primary Action Row with mobile-friendly buttons */}
@@ -200,17 +161,6 @@ export const Hero: React.FC<HeroProps> = () => {
                 <span>Get in Touch</span>
               </a>
             </motion.div>
-
-          </motion.div>
-
-          {/* Right Column: Orbiting Tech Stack & Avatar Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-auto flex flex-col items-center justify-center shrink-0"
-          >
-            <HeroOrbitVisual />
           </motion.div>
 
         </div>

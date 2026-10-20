@@ -72,7 +72,6 @@ export const PROFILE_INFO = {
   facebook: "https://www.facebook.com/shehan.sulakshana.01",
   web3FormsKey: "fc6dacec-aa2f-4466-9e61-1bd471892503",
   terminalLines: [
-    "whoami",
     "Mobile Developer (Flutter)",
     "Cybersecurity Enthusiast",
     "Open for Freelance & Internships",

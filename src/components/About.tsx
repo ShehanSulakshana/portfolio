@@ -10,8 +10,8 @@ import {
   useReducedMotion,
   Variants,
 } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { SiFlutter, SiDart, SiPython, SiFirebase, SiLinux, SiGit, SiWireshark } from 'react-icons/si';
+import { ArrowRight, Mail } from 'lucide-react';
+import { FaGithub, FaLinkedinIn, FaWhatsapp, FaFacebookF } from 'react-icons/fa6';
 import { PROFILE_INFO } from '../data/portfolioData';
 import profileImage from '../assets/images/regenerated_image_1791991636550.jpg';
 
@@ -152,14 +152,42 @@ export const About: React.FC = () => {
     },
   };
 
-  const techStack = [
-    { name: 'Flutter', icon: SiFlutter, color: '#02569B' },
-    { name: 'Dart', icon: SiDart, color: '#0175C2' },
-    { name: 'Python', icon: SiPython, color: '#3776AB' },
-    { name: 'Firebase', icon: SiFirebase, color: '#FFCA28' },
-    { name: 'Linux', icon: SiLinux, color: '#FCC624' },
-    { name: 'Git', icon: SiGit, color: '#F05032' },
-    { name: 'Wireshark', icon: SiWireshark, color: '#1679A7' },
+  const socialChips = [
+    {
+      name: 'GitHub',
+      icon: FaGithub,
+      color: '#f0f6fc',
+      url: PROFILE_INFO.github,
+      external: true,
+    },
+    {
+      name: 'LinkedIn',
+      icon: FaLinkedinIn,
+      color: '#0A66C2',
+      url: PROFILE_INFO.linkedin,
+      external: true,
+    },
+    {
+      name: 'WhatsApp',
+      icon: FaWhatsapp,
+      color: '#25D366',
+      url: PROFILE_INFO.whatsapp,
+      external: true,
+    },
+    {
+      name: 'Facebook',
+      icon: FaFacebookF,
+      color: '#1877F2',
+      url: PROFILE_INFO.facebook,
+      external: true,
+    },
+    {
+      name: 'Email',
+      icon: Mail,
+      color: '#EA4335',
+      url: `mailto:${PROFILE_INFO.email}`,
+      external: false,
+    },
   ];
 
   return (
@@ -299,26 +327,33 @@ export const About: React.FC = () => {
           <div className="lg:col-span-7">
             <div className="flex items-center gap-3 mb-2.5">
               <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold">
-                TECH STACK
+                SOCIAL LINKS
               </span>
               <div className="flex-1 h-px bg-zinc-800" />
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-              {techStack.map((tech) => {
-                const Icon = tech.icon;
+              {socialChips.map((social) => {
+                const Icon = social.icon;
                 return (
-                  <div key={tech.name} className="group flex flex-col items-center cursor-default">
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target={social.external ? '_blank' : undefined}
+                    rel={social.external ? 'noopener noreferrer' : undefined}
+                    className="group flex flex-col items-center cursor-pointer"
+                    aria-label={social.name}
+                  >
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-zinc-900/80 border border-zinc-800 flex items-center justify-center text-zinc-300 group-hover:border-teal-500/40 group-hover:bg-zinc-900 group-hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
                       <Icon
                         className="w-4 h-4 transition-transform duration-200 group-hover:scale-110"
-                        style={{ color: tech.color }}
+                        style={{ color: social.color }}
                       />
                     </div>
                     <span className="text-[10px] text-zinc-400 group-hover:text-zinc-200 mt-1 transition-colors font-medium">
-                      {tech.name}
+                      {social.name}
                     </span>
-                  </div>
+                  </a>
                 );
               })}
             </div>

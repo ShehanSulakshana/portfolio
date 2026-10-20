@@ -33,7 +33,7 @@ const ORBIT_1_TECH: TechItem[] = [
     category: 'Cross-Platform Framework',
     icon: SiFlutter,
     color: '#38BDF8',
-    glowDim: 'rgba(56, 189, 248, 0.4)',
+    glowDim: 'rgba(56, 189, 248, 0.45)',
     borderColorDim: 'rgba(56, 189, 248, 0.35)',
     bgGradient: 'from-sky-950/90 to-blue-900/50',
   },
@@ -43,7 +43,7 @@ const ORBIT_1_TECH: TechItem[] = [
     category: 'Client Language',
     icon: SiDart,
     color: '#00D2C4',
-    glowDim: 'rgba(0, 210, 196, 0.4)',
+    glowDim: 'rgba(0, 210, 196, 0.45)',
     borderColorDim: 'rgba(0, 210, 196, 0.35)',
     bgGradient: 'from-teal-950/90 to-cyan-900/50',
   },
@@ -57,7 +57,7 @@ const ORBIT_2_TECH: TechItem[] = [
     category: 'Auth & Cloud Backend',
     icon: SiFirebase,
     color: '#FFCA28',
-    glowDim: 'rgba(255, 202, 40, 0.4)',
+    glowDim: 'rgba(255, 202, 40, 0.45)',
     borderColorDim: 'rgba(255, 202, 40, 0.35)',
     bgGradient: 'from-amber-950/90 to-orange-900/50',
   },
@@ -67,7 +67,7 @@ const ORBIT_2_TECH: TechItem[] = [
     category: 'Realtime Database',
     icon: SiSupabase,
     color: '#3ECF8E',
-    glowDim: 'rgba(62, 207, 142, 0.4)',
+    glowDim: 'rgba(62, 207, 142, 0.45)',
     borderColorDim: 'rgba(62, 207, 142, 0.35)',
     bgGradient: 'from-emerald-950/90 to-teal-900/50',
   },
@@ -81,7 +81,7 @@ const ORBIT_3_TECH: TechItem[] = [
     category: 'Automation & Security Scripts',
     icon: SiPython,
     color: '#60A5FA',
-    glowDim: 'rgba(96, 165, 250, 0.4)',
+    glowDim: 'rgba(96, 165, 250, 0.45)',
     borderColorDim: 'rgba(96, 165, 250, 0.35)',
     bgGradient: 'from-blue-950/90 to-indigo-900/50',
   },
@@ -91,7 +91,7 @@ const ORBIT_3_TECH: TechItem[] = [
     category: 'OOP & Core Systems',
     icon: FaJava,
     color: '#F87171',
-    glowDim: 'rgba(248, 113, 113, 0.4)',
+    glowDim: 'rgba(248, 113, 113, 0.45)',
     borderColorDim: 'rgba(248, 113, 113, 0.35)',
     bgGradient: 'from-rose-950/90 to-red-900/50',
   },
@@ -105,7 +105,7 @@ const ORBIT_4_TECH: TechItem[] = [
     category: 'Packet & Protocol Analysis',
     icon: SiWireshark,
     color: '#38BDF8',
-    glowDim: 'rgba(56, 189, 248, 0.4)',
+    glowDim: 'rgba(56, 189, 248, 0.45)',
     borderColorDim: 'rgba(56, 189, 248, 0.35)',
     bgGradient: 'from-sky-950/90 to-blue-900/50',
   },
@@ -115,7 +115,7 @@ const ORBIT_4_TECH: TechItem[] = [
     category: 'Security & Penetration Lab',
     icon: SiParrotsecurity,
     color: '#22D3EE',
-    glowDim: 'rgba(34, 211, 238, 0.4)',
+    glowDim: 'rgba(34, 211, 238, 0.45)',
     borderColorDim: 'rgba(34, 211, 238, 0.35)',
     bgGradient: 'from-cyan-950/90 to-sky-900/50',
   },
@@ -128,6 +128,9 @@ export const HeroOrbitVisual: React.FC = () => {
   const [windowWidth, setWindowWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1200
   );
+
+  // Active hover tracking for z-index prioritization and clean tactile feedback
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -145,37 +148,58 @@ export const HeroOrbitVisual: React.FC = () => {
     };
   }, []);
 
+  const isMobileSmall = windowWidth < 380;
   const isMobile = windowWidth < 640;
   const isTablet = windowWidth >= 640 && windowWidth < 1024;
 
+  // Pixel-accurate responsive stage boundaries with balanced vertical framing
+  const stageWidth = isMobileSmall ? 284 : isMobile ? 336 : isTablet ? 420 : 480;
+  const stageHeight = isMobileSmall ? 240 : isMobile ? 280 : isTablet ? 340 : 440;
+
+  // Responsive button sizes
+  const iconBtnClass = isMobileSmall
+    ? 'w-7 h-7 rounded-lg'
+    : isMobile
+    ? 'w-8 h-8 rounded-xl'
+    : isTablet
+    ? 'w-9 h-9 sm:w-10 sm:h-10 rounded-2xl'
+    : 'w-10 h-10 lg:w-11 lg:h-11 rounded-2xl';
+
+  const iconSvgClass = isMobileSmall ? 'w-3 h-3' : isMobile ? 'w-3.5 h-3.5' : isTablet ? 'w-4 h-4' : 'w-5 h-5';
+
+  const avatarHeightClass = isMobileSmall ? 'h-48' : isMobile ? 'h-56' : isTablet ? 'h-64' : 'h-72 lg:h-80';
+  const pedestalWidth = isMobileSmall ? 180 : isMobile ? 210 : isTablet ? 250 : 290;
+
   // 4 Concentric 3D Orbital Rings with Alternating Tilts and Speeds
+  // Scaled proportionally to stageWidth so tech chips NEVER leave orbit or clip screen edges
+
   // Orbit 1: Inner (lower waist/hips)
-  const orbit1Rx = isMobile ? 104 : isTablet ? 124 : 146;
-  const orbit1Ry = isMobile ? 34 : isTablet ? 40 : 48;
+  const orbit1Rx = isMobileSmall ? 68 : isMobile ? 82 : isTablet ? 114 : 138;
+  const orbit1Ry = isMobileSmall ? 22 : isMobile ? 26 : isTablet ? 36 : 44;
   const orbit1TiltDeg = -15;
   const orbit1TiltRad = (orbit1TiltDeg * Math.PI) / 180;
-  const orbit1CenterY = isMobile ? 22 : 28;
+  const orbit1CenterY = isMobileSmall ? 14 : isMobile ? 18 : isTablet ? 24 : 28;
 
   // Orbit 2: Mid-Inner (mid-torso/abdomen)
-  const orbit2Rx = isMobile ? 130 : isTablet ? 154 : 180;
-  const orbit2Ry = isMobile ? 42 : isTablet ? 50 : 58;
+  const orbit2Rx = isMobileSmall ? 86 : isMobile ? 104 : isTablet ? 142 : 172;
+  const orbit2Ry = isMobileSmall ? 28 : isMobile ? 33 : isTablet ? 45 : 55;
   const orbit2TiltDeg = 17;
   const orbit2TiltRad = (orbit2TiltDeg * Math.PI) / 180;
-  const orbit2CenterY = isMobile ? 6 : 8;
+  const orbit2CenterY = isMobileSmall ? 4 : isMobile ? 6 : isTablet ? 8 : 8;
 
   // Orbit 3: Mid-Outer (chest/upper-torso)
-  const orbit3Rx = isMobile ? 156 : isTablet ? 184 : 214;
-  const orbit3Ry = isMobile ? 50 : isTablet ? 60 : 68;
+  const orbit3Rx = isMobileSmall ? 104 : isMobile ? 126 : isTablet ? 172 : 206;
+  const orbit3Ry = isMobileSmall ? 33 : isMobile ? 40 : isTablet ? 55 : 66;
   const orbit3TiltDeg = -12;
   const orbit3TiltRad = (orbit3TiltDeg * Math.PI) / 180;
-  const orbit3CenterY = isMobile ? -14 : -18;
+  const orbit3CenterY = isMobileSmall ? -10 : isMobile ? -14 : isTablet ? -16 : -18;
 
   // Orbit 4: Outer (high chest/shoulders)
-  const orbit4Rx = isMobile ? 182 : isTablet ? 212 : 248;
-  const orbit4Ry = isMobile ? 58 : isTablet ? 68 : 78;
+  const orbit4Rx = isMobileSmall ? 122 : isMobile ? 148 : isTablet ? 198 : 236;
+  const orbit4Ry = isMobileSmall ? 39 : isMobile ? 47 : isTablet ? 63 : 75;
   const orbit4TiltDeg = 21;
   const orbit4TiltRad = (orbit4TiltDeg * Math.PI) / 180;
-  const orbit4CenterY = isMobile ? -30 : -38;
+  const orbit4CenterY = isMobileSmall ? -22 : isMobile ? -26 : isTablet ? -32 : -38;
 
   // Animation angle states
   const [orbit1Angle, setOrbit1Angle] = useState(0);
@@ -224,17 +248,6 @@ export const HeroOrbitVisual: React.FC = () => {
     return () => cancelAnimationFrame(animId);
   }, [reduceMotion, orbit1Speed, orbit2Speed, orbit3Speed, orbit4Speed]);
 
-  // Responsive button sizes
-  const iconBtnClass = isMobile
-    ? 'w-8 h-8 rounded-xl'
-    : isTablet
-    ? 'w-9 h-9 sm:w-10 sm:h-10 rounded-2xl'
-    : 'w-10 h-10 lg:w-11 lg:h-11 rounded-2xl';
-  const iconSvgClass = isMobile ? 'w-3.5 h-3.5' : isTablet ? 'w-4 h-4' : 'w-5 h-5';
-
-  const avatarHeightClass = isMobile ? 'h-56' : isTablet ? 'h-64' : 'h-72 lg:h-80';
-  const pedestalWidth = isMobile ? 220 : isTablet ? 260 : 300;
-
   // Helper to calculate 3D position and depth sorting for an orbit
   const compute3DPosition = (
     itemIndex: number,
@@ -252,7 +265,7 @@ export const HeroOrbitVisual: React.FC = () => {
     const x0 = rx * Math.cos(u);
     const y0 = ry * Math.sin(u);
 
-    // Tilted ellipse position
+    // Tilted ellipse position matching exact SVG transform matrix
     const x = x0 * Math.cos(tiltRad) - y0 * Math.sin(tiltRad);
     const y = x0 * Math.sin(tiltRad) + y0 * Math.cos(tiltRad) + centerY;
 
@@ -270,6 +283,7 @@ export const HeroOrbitVisual: React.FC = () => {
   };
 
   // Reusable helper to render orbiting icons with consistent minimal appearance (front & back alike)
+  // Perfectly centered on the 3D orbit line and equipped with spring scale hover interaction
   const renderOrbitGroup = (
     items: TechItem[],
     angle: number,
@@ -281,35 +295,47 @@ export const HeroOrbitVisual: React.FC = () => {
     items.map((item, index) => {
       const pos = compute3DPosition(index, items.length, angle, rx, ry, tiltRad, centerY);
       const Icon = item.icon;
+      const isHovered = hoveredId === item.id;
 
       return (
         <div
           key={item.id}
-          className="absolute pointer-events-none transition-all duration-75 ease-linear select-none"
+          className="absolute select-none pointer-events-auto"
           style={{
-            transform: `translate3d(${pos.x}px, ${pos.y}px, 0) scale(${pos.scale})`,
-            zIndex: pos.zIndex,
+            left: '50%',
+            top: '50%',
+            // Exact center-locked transform: translates to (pos.x, pos.y) and offsets by half-chip (-50%)
+            transform: `translate3d(calc(${pos.x}px - 50%), calc(${pos.y}px - 50%), 0) scale(${pos.scale})`,
+            zIndex: isHovered ? 60 : pos.zIndex,
             opacity: pos.opacity,
           }}
+          onMouseEnter={() => setHoveredId(item.id)}
+          onMouseLeave={() => setHoveredId(null)}
         >
-          {/* Consistent minimal styling - identical front & back without jarring headlight flashes */}
-          <div
-            className={`relative flex items-center justify-center ${iconBtnClass} bg-zinc-950/90 border border-zinc-800/80 rounded-xl sm:rounded-2xl shadow-lg transition-all duration-200`}
+          {/* Minimalist Tech Chip with simple scale hover interaction */}
+          <motion.div
+            whileHover={{ scale: 1.25 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ type: 'spring', stiffness: 450, damping: 25 }}
+            className={`group relative flex items-center justify-center ${iconBtnClass} bg-zinc-950/92 border border-zinc-800/80 rounded-xl sm:rounded-2xl shadow-lg cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400`}
             style={{
-              borderColor: item.borderColorDim,
-              boxShadow: `0 0 10px ${item.glowDim}, 0 2px 8px rgba(0,0,0,0.6)`,
+              borderColor: isHovered ? item.color : item.borderColorDim,
+              boxShadow: isHovered
+                ? `0 0 16px ${item.glowDim}, 0 4px 12px rgba(0,0,0,0.75)`
+                : `0 0 10px ${item.glowDim}, 0 2px 8px rgba(0,0,0,0.6)`,
             }}
+            title={`${item.name} (${item.category})`}
           >
             {/* Subtle, steady ambient gradient inside */}
             <div
-              className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-tr ${item.bgGradient} opacity-30`}
+              className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-tr ${item.bgGradient} opacity-30 group-hover:opacity-55 transition-opacity duration-200`}
             />
 
             <Icon
-              className={`${iconSvgClass} relative z-10`}
+              className={`${iconSvgClass} relative z-10 transition-transform duration-200 group-hover:scale-110`}
               style={{ color: item.color }}
             />
-          </div>
+          </motion.div>
         </div>
       );
     });
@@ -317,10 +343,13 @@ export const HeroOrbitVisual: React.FC = () => {
   return (
     <div className="relative flex flex-col items-center justify-center select-none w-full max-w-full overflow-visible">
       {/* Ambient background teal/cyan radial bloom */}
-      <div className="absolute w-72 h-72 sm:w-96 sm:h-96 lg:w-[440px] lg:h-[440px] rounded-full bg-gradient-to-tr from-teal-500/15 via-cyan-500/10 to-emerald-500/10 blur-3xl pointer-events-none -z-10" />
+      <div className="absolute w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-full bg-gradient-to-tr from-teal-500/15 via-cyan-500/10 to-emerald-500/10 blur-3xl pointer-events-none -z-10" />
 
-      {/* 3D SCENE STAGE */}
-      <div className="relative w-[320px] h-[360px] sm:w-[400px] sm:h-[420px] lg:w-[460px] lg:h-[480px] flex items-center justify-center">
+      {/* 3D SCENE STAGE (Exact Pixel Coordinates & SVG ViewBox Parity) */}
+      <div
+        className="relative flex items-center justify-center max-w-full"
+        style={{ width: stageWidth, height: stageHeight }}
+      >
 
         {/* ---------------------------------------------------- */}
         {/* LAYER 1: BACK ORBIT SVG RINGS (Z-INDEX: 4, BEHIND AVATAR) */}
@@ -329,7 +358,7 @@ export const HeroOrbitVisual: React.FC = () => {
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
           style={{ zIndex: 4 }}
-          viewBox="-260 -260 520 520"
+          viewBox={`-${stageWidth / 2} -${stageHeight / 2} ${stageWidth} ${stageHeight}`}
         >
           <defs>
             {/* Smooth depth gradient for Orbit 4 Back Arc (Amber) */}
@@ -367,7 +396,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit4Rx} 0 A ${orbit4Rx} ${orbit4Ry} 0 0 1 ${orbit4Rx} 0`}
               fill="none"
               stroke="url(#orbit4BackGrad)"
-              strokeWidth="1.5"
+              strokeWidth={isMobile ? '1.25' : '1.5'}
             />
           </g>
 
@@ -377,7 +406,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit3Rx} 0 A ${orbit3Rx} ${orbit3Ry} 0 0 1 ${orbit3Rx} 0`}
               fill="none"
               stroke="url(#orbit3BackGrad)"
-              strokeWidth="1.5"
+              strokeWidth={isMobile ? '1.25' : '1.5'}
             />
           </g>
 
@@ -387,7 +416,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit2Rx} 0 A ${orbit2Rx} ${orbit2Ry} 0 0 1 ${orbit2Rx} 0`}
               fill="none"
               stroke="url(#orbit2BackGrad)"
-              strokeWidth="1.6"
+              strokeWidth={isMobile ? '1.3' : '1.6'}
             />
           </g>
 
@@ -397,7 +426,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit1Rx} 0 A ${orbit1Rx} ${orbit1Ry} 0 0 1 ${orbit1Rx} 0`}
               fill="none"
               stroke="url(#orbit1BackGrad)"
-              strokeWidth="1.75"
+              strokeWidth={isMobile ? '1.4' : '1.75'}
             />
           </g>
         </svg>
@@ -417,7 +446,7 @@ export const HeroOrbitVisual: React.FC = () => {
             {/* Ground reflection glow */}
             <div
               className="absolute rounded-full bg-teal-400/25 blur-xl pointer-events-none"
-              style={{ width: pedestalWidth * 0.95, height: 40 }}
+              style={{ width: pedestalWidth * 0.95, height: isMobile ? 32 : 40 }}
             />
 
             {/* Tilted 3D holographic discs */}
@@ -466,7 +495,7 @@ export const HeroOrbitVisual: React.FC = () => {
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
           style={{ zIndex: 25 }}
-          viewBox="-260 -260 520 520"
+          viewBox={`-${stageWidth / 2} -${stageHeight / 2} ${stageWidth} ${stageHeight}`}
         >
           {/* Orbit 1 Front Arc (Teal - waist) */}
           <g transform={`translate(0, ${orbit1CenterY}) rotate(${orbit1TiltDeg})`}>
@@ -474,7 +503,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit1Rx} 0 A ${orbit1Rx} ${orbit1Ry} 0 0 0 ${orbit1Rx} 0`}
               fill="none"
               stroke="#14b8a6"
-              strokeWidth="2"
+              strokeWidth={isMobile ? '1.5' : '2'}
               opacity="0.85"
               className="drop-shadow-[0_0_8px_rgba(20,184,166,0.8)]"
             />
@@ -486,7 +515,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit2Rx} 0 A ${orbit2Rx} ${orbit2Ry} 0 0 0 ${orbit2Rx} 0`}
               fill="none"
               stroke="#10b981"
-              strokeWidth="1.8"
+              strokeWidth={isMobile ? '1.4' : '1.8'}
               opacity="0.8"
               className="drop-shadow-[0_0_8px_rgba(16,185,129,0.75)]"
             />
@@ -498,7 +527,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit3Rx} 0 A ${orbit3Rx} ${orbit3Ry} 0 0 0 ${orbit3Rx} 0`}
               fill="none"
               stroke="#06b6d4"
-              strokeWidth="1.75"
+              strokeWidth={isMobile ? '1.3' : '1.75'}
               opacity="0.8"
               className="drop-shadow-[0_0_8px_rgba(6,182,212,0.7)]"
             />
@@ -510,7 +539,7 @@ export const HeroOrbitVisual: React.FC = () => {
               d={`M -${orbit4Rx} 0 A ${orbit4Rx} ${orbit4Ry} 0 0 0 ${orbit4Rx} 0`}
               fill="none"
               stroke="#f59e0b"
-              strokeWidth="1.6"
+              strokeWidth={isMobile ? '1.3' : '1.6'}
               opacity="0.8"
               className="drop-shadow-[0_0_8px_rgba(245,158,11,0.7)]"
             />
