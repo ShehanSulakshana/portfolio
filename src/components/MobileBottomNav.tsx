@@ -10,13 +10,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = () => {
   const [activeTab, setActiveTab] = useState<string>('home');
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sectionIds = ['home', 'about', 'projects', 'credentials', 'certificates', 'journey', 'skills', 'contact'];
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 260 && rect.bottom >= 120) {
+    const sectionIds = ['home', 'about', 'projects', 'credentials', 'journey', 'skills', 'contact'];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
             if (id === 'about') {
               setActiveTab('home');
             } else if (id === 'certificates') {
@@ -24,15 +23,21 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = () => {
             } else {
               setActiveTab(id);
             }
-            break;
           }
         }
+      },
+      {
+        rootMargin: '-20% 0px -50% 0px',
+        threshold: 0,
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const navItems = [

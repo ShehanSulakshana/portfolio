@@ -10,7 +10,7 @@ import {
   SiParrotsecurity,
 } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa6';
-import avatarImg from '../assets/images/My-avatar.png';
+import avatarImg from '../assets/images/My-avatar.webp';
 
 interface TechItem {
   id: string;
@@ -201,11 +201,12 @@ export const HeroOrbitVisual: React.FC = () => {
   const orbit4TiltRad = (orbit4TiltDeg * Math.PI) / 180;
   const orbit4CenterY = isMobileSmall ? -22 : isMobile ? -26 : isTablet ? -32 : -38;
 
-  // Animation angle states
-  const [orbit1Angle, setOrbit1Angle] = useState(0);
-  const [orbit2Angle, setOrbit2Angle] = useState(0);
-  const [orbit3Angle, setOrbit3Angle] = useState(0);
-  const [orbit4Angle, setOrbit4Angle] = useState(0);
+  // Chip DOM references for direct 60fps hardware-accelerated transforms (0 React re-renders)
+  const chipRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const isVisibleRef = useRef(true);
+  const hoveredIdRef = useRef<string | null>(null);
+  hoveredIdRef.current = hoveredId;
 
   const lastTimeRef = useRef<number | null>(null);
   const orbit1AngleRef = useRef(0);
@@ -218,35 +219,6 @@ export const HeroOrbitVisual: React.FC = () => {
   const orbit2Speed = (2 * Math.PI) / 30000; // counter-clockwise ~30s
   const orbit3Speed = (2 * Math.PI) / 36000; // clockwise ~36s
   const orbit4Speed = (2 * Math.PI) / 42000; // counter-clockwise ~42s
-
-  useEffect(() => {
-    if (reduceMotion) return;
-
-    let animId: number;
-    const animate = (time: number) => {
-      if (lastTimeRef.current === null) {
-        lastTimeRef.current = time;
-      }
-      const delta = time - lastTimeRef.current;
-      lastTimeRef.current = time;
-
-      // Always runs continuously (no pause on hover)
-      orbit1AngleRef.current = (orbit1AngleRef.current + delta * orbit1Speed) % (2 * Math.PI);
-      orbit2AngleRef.current = (orbit2AngleRef.current - delta * orbit2Speed + 2 * Math.PI) % (2 * Math.PI);
-      orbit3AngleRef.current = (orbit3AngleRef.current + delta * orbit3Speed) % (2 * Math.PI);
-      orbit4AngleRef.current = (orbit4AngleRef.current - delta * orbit4Speed + 2 * Math.PI) % (2 * Math.PI);
-
-      setOrbit1Angle(orbit1AngleRef.current);
-      setOrbit2Angle(orbit2AngleRef.current);
-      setOrbit3Angle(orbit3AngleRef.current);
-      setOrbit4Angle(orbit4AngleRef.current);
-
-      animId = requestAnimationFrame(animate);
-    };
-
-    animId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animId);
-  }, [reduceMotion, orbit1Speed, orbit2Speed, orbit3Speed, orbit4Speed]);
 
   // Helper to calculate 3D position and depth sorting for an orbit
   const compute3DPosition = (
@@ -282,6 +254,75 @@ export const HeroOrbitVisual: React.FC = () => {
     return { x, y, scale, opacity, zIndex, isFront };
   };
 
+  const updateChipDOM = (
+    items: TechItem[],
+    angle: number,
+    rx: number,
+    ry: number,
+    tiltRad: number,
+    centerY: number
+  ) => {
+    for (let index = 0; index < items.length; index++) {
+      const item = items[index];
+      const el = chipRefs.current[item.id];
+      if (!el) continue;
+      const pos = compute3DPosition(index, items.length, angle, rx, ry, tiltRad, centerY);
+      el.style.transform = `translate3d(calc(${pos.x}px - 50%), calc(${pos.y}px - 50%), 0) scale(${pos.scale})`;
+      if (hoveredIdRef.current !== item.id) {
+        el.style.zIndex = `${pos.zIndex}`;
+      }
+      el.style.opacity = `${pos.opacity}`;
+    }
+  };
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    // Pause animation when hero is scrolled out of viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    let animId: number;
+    const animate = (time: number) => {
+      if (lastTimeRef.current === null) {
+        lastTimeRef.current = time;
+      }
+      const delta = time - lastTimeRef.current;
+      lastTimeRef.current = time;
+
+      // Only calculate and transform when in viewport and document is active
+      if (isVisibleRef.current && !document.hidden && delta < 250) {
+        orbit1AngleRef.current = (orbit1AngleRef.current + delta * orbit1Speed) % (2 * Math.PI);
+        orbit2AngleRef.current = (orbit2AngleRef.current - delta * orbit2Speed + 2 * Math.PI) % (2 * Math.PI);
+        orbit3AngleRef.current = (orbit3AngleRef.current + delta * orbit3Speed) % (2 * Math.PI);
+        orbit4AngleRef.current = (orbit4AngleRef.current - delta * orbit4Speed + 2 * Math.PI) % (2 * Math.PI);
+
+        // Direct DOM style updates: 0 React re-renders, 60fps GPU compositor acceleration
+        updateChipDOM(ORBIT_1_TECH, orbit1AngleRef.current, orbit1Rx, orbit1Ry, orbit1TiltRad, orbit1CenterY);
+        updateChipDOM(ORBIT_2_TECH, orbit2AngleRef.current, orbit2Rx, orbit2Ry, orbit2TiltRad, orbit2CenterY);
+        updateChipDOM(ORBIT_3_TECH, orbit3AngleRef.current, orbit3Rx, orbit3Ry, orbit3TiltRad, orbit3CenterY);
+        updateChipDOM(ORBIT_4_TECH, orbit4AngleRef.current, orbit4Rx, orbit4Ry, orbit4TiltRad, orbit4CenterY);
+      }
+
+      animId = requestAnimationFrame(animate);
+    };
+
+    animId = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(animId);
+      observer.disconnect();
+    };
+  }, [reduceMotion, orbit1Speed, orbit2Speed, orbit3Speed, orbit4Speed, orbit1Rx, orbit1Ry, orbit1TiltRad, orbit1CenterY, orbit2Rx, orbit2Ry, orbit2TiltRad, orbit2CenterY, orbit3Rx, orbit3Ry, orbit3TiltRad, orbit3CenterY, orbit4Rx, orbit4Ry, orbit4TiltRad, orbit4CenterY]);
+
   // Reusable helper to render orbiting icons with consistent minimal appearance (front & back alike)
   // Perfectly centered on the 3D orbit line and equipped with spring scale hover interaction
   const renderOrbitGroup = (
@@ -300,7 +341,10 @@ export const HeroOrbitVisual: React.FC = () => {
       return (
         <div
           key={item.id}
-          className="absolute select-none pointer-events-auto"
+          ref={(el) => {
+            chipRefs.current[item.id] = el;
+          }}
+          className="absolute select-none pointer-events-auto will-change-transform"
           style={{
             left: '50%',
             top: '50%',
@@ -341,7 +385,10 @@ export const HeroOrbitVisual: React.FC = () => {
     });
 
   return (
-    <div className="relative flex flex-col items-center justify-center select-none w-full max-w-full overflow-visible">
+    <div
+      ref={containerRef}
+      className="relative flex flex-col items-center justify-center select-none w-full max-w-full overflow-visible"
+    >
       {/* Ambient background teal/cyan radial bloom */}
       <div className="absolute w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-full bg-gradient-to-tr from-teal-500/15 via-cyan-500/10 to-emerald-500/10 blur-3xl pointer-events-none -z-10" />
 
@@ -485,6 +532,7 @@ export const HeroOrbitVisual: React.FC = () => {
             className={`${avatarHeightClass} object-contain object-bottom filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.85)] select-none`}
             style={{ transform: 'translateX(-5.34%)' }}
             loading="eager"
+            decoding="async"
             draggable={false}
           />
         </div>
@@ -549,10 +597,10 @@ export const HeroOrbitVisual: React.FC = () => {
         {/* ---------------------------------------------------- */}
         {/* LAYER 5: ORBITING ICONS WITH DYNAMIC 3D DEPTH Z-INDEX */}
         {/* ---------------------------------------------------- */}
-        {renderOrbitGroup(ORBIT_1_TECH, orbit1Angle, orbit1Rx, orbit1Ry, orbit1TiltRad, orbit1CenterY)}
-        {renderOrbitGroup(ORBIT_2_TECH, orbit2Angle, orbit2Rx, orbit2Ry, orbit2TiltRad, orbit2CenterY)}
-        {renderOrbitGroup(ORBIT_3_TECH, orbit3Angle, orbit3Rx, orbit3Ry, orbit3TiltRad, orbit3CenterY)}
-        {renderOrbitGroup(ORBIT_4_TECH, orbit4Angle, orbit4Rx, orbit4Ry, orbit4TiltRad, orbit4CenterY)}
+        {renderOrbitGroup(ORBIT_1_TECH, orbit1AngleRef.current, orbit1Rx, orbit1Ry, orbit1TiltRad, orbit1CenterY)}
+        {renderOrbitGroup(ORBIT_2_TECH, orbit2AngleRef.current, orbit2Rx, orbit2Ry, orbit2TiltRad, orbit2CenterY)}
+        {renderOrbitGroup(ORBIT_3_TECH, orbit3AngleRef.current, orbit3Rx, orbit3Ry, orbit3TiltRad, orbit3CenterY)}
+        {renderOrbitGroup(ORBIT_4_TECH, orbit4AngleRef.current, orbit4Rx, orbit4Ry, orbit4TiltRad, orbit4CenterY)}
 
       </div>
     </div>

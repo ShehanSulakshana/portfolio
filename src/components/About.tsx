@@ -106,11 +106,16 @@ export const About: React.FC = () => {
   const reduceMotion = useReducedMotion();
 
   // Bubble animation + interaction state
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const isPortraitInView = useInView(portraitRef, { margin: '80px' });
+  const staticBlobPath = buildBlobPath(0, 0);
+
   const time = useTime();
   const hoverAmp = useSpring(1, { stiffness: 60, damping: 14 });
-  const blobPath = useTransform([time, hoverAmp], ([t, a]) =>
-    buildBlobPath(t as number, reduceMotion ? 0 : (a as number))
-  );
+  const blobPath = useTransform([time, hoverAmp], ([t, a]) => {
+    if (reduceMotion || !isPortraitInView) return staticBlobPath;
+    return buildBlobPath(t as number, a as number);
+  });
 
   const mouseX = useSpring(useMotionValue(0), { stiffness: 120, damping: 18 });
   const mouseY = useSpring(useMotionValue(0), { stiffness: 120, damping: 18 });
@@ -216,6 +221,7 @@ export const About: React.FC = () => {
             className="lg:col-span-5 flex justify-center lg:justify-start"
           >
             <div
+              ref={portraitRef}
               className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-square cursor-pointer select-none"
               onPointerEnter={handlePointerEnter}
               onPointerMove={handlePointerMove}
@@ -247,6 +253,7 @@ export const About: React.FC = () => {
                       src={profileImage}
                       alt={PROFILE_INFO.fullName}
                       loading="lazy"
+                      decoding="async"
                       draggable={false}
                       className="absolute inset-0 w-full h-full object-contain object-bottom origin-bottom"
                       style={{ x: imgX, y: imgY, scale: 1.05 }}

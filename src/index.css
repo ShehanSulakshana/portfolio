@@ -68,3 +68,45 @@
 .image-placeholder-fallback {
   background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
 }
+
+/* Hardware accelerated transform utility */
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Off-screen rendering optimizations: skip layout & painting until scrolled near */
+#about,
+#projects,
+#credentials,
+#journey,
+#skills,
+#contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 650px;
+}
+
+/* Mobile GPU & scroll optimizations for low-end devices */
+@media (max-width: 768px) {
+  /* Promote fixed navigation bars to dedicated GPU composite layers */
+  header,
+  nav,
+  [role="progressbar"] {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Optimize heavy multi-pass blur on mobile GPUs while preserving frosted glass aesthetic */
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  .backdrop-blur-md {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+}
